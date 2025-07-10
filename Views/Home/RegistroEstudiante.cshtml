@@ -1,0 +1,18 @@
+﻿<h2>Registro de Estudiante</h2>
+
+<form asp-action="RegistroEstudiante" method="post">
+    <input name="Nombre" placeholder="Nombre completo" class="form-control" />
+    <input name="Correo_institucional" placeholder="Correo institucional" class="form-control" />
+    <input name="Codigo" placeholder="Código estudiante" class="form-control" />
+    <input name="Contrasena" type="password" placeholder="Contraseña" class="form-control" />
+    <input name="ConfirmarContrasena" type="password" placeholder="Confirmar contraseña" class="form-control" />
+    <input type="checkbox" name="AceptarTerminos" /> Acepto términos y condiciones
+
+    <button type="reset" onclick="return confirm('¿Deseas borrar el formulario?')" class="btn btn-secondary">Borrar datos</button>
+    <button type="submit" onclick="return confirm('¿Deseas continuar?')" class="btn btn-primary">Enviar datos</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.MensajeError))
+{
+    <p class="text-danger">@ViewBag.MensajeError</p>
+}

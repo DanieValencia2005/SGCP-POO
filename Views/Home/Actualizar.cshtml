@@ -1,0 +1,43 @@
+﻿<h2>Actualizar información</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" />
+
+    <label>Nombre completo</label>
+    <input name="Nombre_estudiante" readonly class="form-control" />
+
+    <label>Correo personal</label>
+    <input name="Correo_personal" class="form-control" />
+
+    <label>Teléfono</label>
+    <input name="Telefono" class="form-control" />
+
+    <label>Habilidades</label>
+    <textarea name="Habilidades" class="form-control"></textarea>
+
+    <label>Deficiencias</label>
+    <textarea name="Deficiencias" class="form-control"></textarea>
+
+    <label>Tiempo dedicación semanal</label>
+    <input name="Tiempo_dedicacion" class="form-control" />
+
+    <label>Edad</label>
+    <input name="Edad_estudiante" class="form-control" />
+
+    <label>Contraseña actual</label>
+    <input name="ContrasenaActual" type="password" class="form-control" />
+
+    <label>Nueva contraseña</label>
+    <input name="ContrasenaNueva" type="password" class="form-control" />
+
+    <button type="submit" class="btn btn-success">Actualizar información</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.MensajeError))
+{
+    <p class="text-danger">@ViewBag.MensajeError</p>
+}
+@if (!string.IsNullOrEmpty(ViewBag.MensajeExito))
+{
+    <p class="text-success">@ViewBag.MensajeExito</p>
+}
