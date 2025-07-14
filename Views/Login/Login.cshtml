@@ -1,4 +1,8 @@
-﻿<h2>Iniciar sesión</h2>
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+<h2>Iniciar sesión</h2>
 
 <form asp-action="Login" method="post">
     <label>Correo institucional</label>
@@ -8,7 +12,7 @@
     <input name="Contrasena" type="password" class="form-control" />
 
     <button type="submit" class="btn btn-primary">Ingresar</button>
-    <a asp-action="SeleccionRegistro">¿No tienes cuenta? Registrarme</a>
+    <a asp-action="Registro">¿No tienes cuenta? Registrarme</a>
 </form>
 
 @if (!string.IsNullOrEmpty(ViewBag.MensajeError))

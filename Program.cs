@@ -1,15 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using SGCP_POO.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configurar el contexto de base de datos
+builder.Services.AddDbContext<SGCPContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SGCP_POO"));
+});
+
+// Habilitar controladores y vistas
 builder.Services.AddControllersWithViews();
+
+// Agregar soporte para sesiones
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(1); // Sesión de 1 hora
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuración del pipeline de middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -18,6 +34,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();         // Habilitar sesiones (muy importante)
 app.UseAuthorization();
 
 app.MapControllerRoute(

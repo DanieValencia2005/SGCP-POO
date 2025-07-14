@@ -1,22 +1,70 @@
+/* Base font sizes */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Sidebar styling */
+.sidebar {
+    background-color: #e3f2fd;
+    min-height: 100vh;
+    padding-top: 1.5rem;
+}
+
+    .sidebar .nav-link {
+        color: #0d6efd;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+        .sidebar .nav-link:hover {
+            background-color: #cfe2ff;
+            border-radius: 5px;
+        }
+
+/* Main content and cards */
+.main-content {
+    padding: 2rem;
+}
+
+.info-card {
+    background-color: white;
+    border-left: 5px solid #0d6efd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+h1, h2, h4, h5 {
+    color: #0d6efd;
+}
+
+a {
+    text-decoration: none;
 }

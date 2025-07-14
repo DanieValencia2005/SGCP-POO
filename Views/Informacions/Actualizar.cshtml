@@ -1,0 +1,71 @@
+﻿@model SGCP_POO.Models.Informacion
+
+@{
+    ViewData["Title"] = "Actualizar Información";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Actualizar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="IdInformacion" />
+            <input type="hidden" asp-for="IdEstudiante" />
+
+            <div class="form-group">
+                <label asp-for="CorreoPersonal" class="control-label"></label>
+                <input asp-for="CorreoPersonal" class="form-control" />
+                <span asp-validation-for="CorreoPersonal" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Edad" class="control-label"></label>
+                <input asp-for="Edad" class="form-control" />
+                <span asp-validation-for="Edad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Habilidades" class="control-label"></label>
+                <input asp-for="Habilidades" class="form-control" />
+                <span asp-validation-for="Habilidades" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Deficiencias" class="control-label"></label>
+                <input asp-for="Deficiencias" class="form-control" />
+                <span asp-validation-for="Deficiencias" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TiempoDedicacion" class="control-label"></label>
+                <input asp-for="TiempoDedicacion" class="form-control" />
+                <span asp-validation-for="TiempoDedicacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ContraseñaNueva" class="control-label"></label>
+                <input asp-for="ContraseñaNueva" class="form-control" />
+                <span asp-validation-for="ContraseñaNueva" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
