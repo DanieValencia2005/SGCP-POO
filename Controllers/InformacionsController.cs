@@ -16,14 +16,19 @@ namespace SGCP_POO.Controllers
         // GET: Informacions/Actualizar
         public async Task<IActionResult> Actualizar()
         {
-            int idEstudiante = 1; // ← Cambia esto según el estudiante que quieras probar
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+
+            if (idEstudiante == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
             var info = await _context.Informacions
                 .FirstOrDefaultAsync(i => i.IdEstudiante == idEstudiante);
 
             if (info == null)
             {
-                return View(new Informacion { IdEstudiante = idEstudiante });
+                return View(new Informacion { IdEstudiante = idEstudiante.Value });
             }
 
             return View(info);
@@ -32,8 +37,17 @@ namespace SGCP_POO.Controllers
         // POST: Informacions/Actualizar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Actualizar([Bind("IdInformacion,IdEstudiante,CorreoPersonal,Edad,Telefono,Habilidades,Deficiencias,TiempoDedicacion,ContraseñaNueva")] Informacion info)
+        public async Task<IActionResult> Actualizar([Bind("IdInformacion,CorreoPersonal,Edad,Telefono,Habilidades,Deficiencias,TiempoDedicacion,ContraseñaNueva")] Informacion info)
         {
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+
+            if (idEstudiante == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            info.IdEstudiante = idEstudiante.Value;
+
             if (!ModelState.IsValid)
             {
                 return View(info);
@@ -60,7 +74,7 @@ namespace SGCP_POO.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home"); // O redirige donde prefieras
+            return RedirectToAction("Index", "Home");
         }
     }
 }

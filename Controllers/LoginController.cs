@@ -26,7 +26,6 @@ namespace SGCP_POO.Controllers
 
         // POST: Login
         [HttpPost]
-        [HttpPost]
         public async Task<IActionResult> Login(string Correo_institucional, string Contrasena)
         {
             var usuario = await Usuario.Autenticar_Usuario(_context, Correo_institucional, Contrasena);
@@ -40,10 +39,12 @@ namespace SGCP_POO.Controllers
                 if (usuario.Estudiante != null)
                 {
                     HttpContext.Session.SetString("Rol", "Estudiante");
+                    HttpContext.Session.SetInt32("IdEstudiante", usuario.Estudiante.IdEstudiante);
                 }
                 else if (usuario.Administrador != null)
                 {
                     HttpContext.Session.SetString("Rol", "Administrador");
+                    HttpContext.Session.SetInt32("IdAdministrador", usuario.Administrador.IdAdministrador);
                 }
 
                 return RedirectToAction("Index", "Home");
@@ -52,6 +53,5 @@ namespace SGCP_POO.Controllers
             ViewBag.MensajeError = "Correo o contraseña inválidos.";
             return View("Login");
         }
-
     }
 }
