@@ -1,6 +1,37 @@
-/* Base font sizes */
+:root {
+    --background-body: #f8f9fa;
+    --background-main: #ffffff;
+    --background-sidebar: #e3f2fd;
+    --text-color: #212529;
+    --card-border-left: #0d6efd;
+    --link-color: #0d6efd;
+    --link-hover-bg: #cfe2ff;
+}
+
+/* Definición para modo oscuro */
+body.dark-mode {
+    --background-body: #121212;
+    --background-main: #1e1e1e;
+    --background-sidebar: #1e1e1e;
+    --text-color: #f1f1f1;
+    --card-border-left: #0dcaf0;
+    --link-color: #0dcaf0;
+    --link-hover-bg: #333;
+}
+
+
+/* Aplicar colores dinámicos desde las variables */
+body {
+    background-color: var(--background-body);
+    color: var(--text-color);
+    margin-bottom: 60px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -9,18 +40,7 @@ html {
     }
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    margin-bottom: 60px;
-    background-color: #f8f9fa;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Focus styles for accessibility */
+/* Estilos de botones y enfoque accesible */
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -29,42 +49,63 @@ body {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-/* Sidebar styling */
+/* Sidebar */
 .sidebar {
-    background-color: #e3f2fd;
+    background-color: var(--background-sidebar);
     min-height: 100vh;
     padding-top: 1.5rem;
 }
 
     .sidebar .nav-link {
-        color: #0d6efd;
+        color: var(--link-color);
         font-weight: 500;
         margin-bottom: 0.5rem;
     }
 
         .sidebar .nav-link:hover {
-            background-color: #cfe2ff;
+            background-color: var(--link-hover-bg);
             border-radius: 5px;
         }
 
-/* Main content and cards */
+/* Contenido principal */
 .main-content {
+    background-color: var(--background-main);
     padding: 2rem;
 }
 
+/* Tarjetas informativas */
 .info-card {
-    background-color: white;
-    border-left: 5px solid #0d6efd;
+    background-color: var(--background-main);
+    border-left: 5px solid var(--card-border-left);
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
+/* Encabezados y enlaces */
 h1, h2, h4, h5 {
-    color: #0d6efd;
+    color: var(--link-color);
 }
 
-a {
+a, .nav-link {
+    color: var(--link-color);
     text-decoration: none;
+}
+
+    .nav-link:hover {
+        background-color: var(--link-hover-bg);
+    }
+
+/* Tamaños de fuente dinámicos */
+body.font-small {
+    font-size: 15px;
+}
+
+body.font-medium {
+    font-size: 25px;
+}
+
+body.font-large {
+    font-size: 35px;
 }
