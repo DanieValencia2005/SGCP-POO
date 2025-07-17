@@ -109,3 +109,26 @@ body.font-medium {
 body.font-large {
     font-size: 35px;
 }
+/* Menú tipo colapsable (escondido por defecto) */
+.sidebar.collapsible {
+    display: none;
+}
+
+.sidebar.show-collapsible {
+    display: block;
+}
+
+body.menu-right #menuRow {
+    flex-direction: row-reverse; /* Intercambia sidebar y contenido */
+}
+body.menu-right #menuRow {
+    flex-direction: row-reverse;
+}
+
+.sidebar.collapsible {
+    display: none;
+}
+
+.sidebar.show-collapsible {
+    display: block;
+}

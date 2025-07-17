@@ -32,10 +32,8 @@
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-5">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        @RenderBody()
     </div>
 
     <footer class="border-top footer text-muted mt-5 py-3">
@@ -45,6 +43,7 @@
 
         <div class="d-flex justify-content-center align-items-center mt-2 gap-3">
             <button id="toggleTheme" class="btn btn-outline-secondary btn-sm">🌙 Tema Oscuro</button>
+
             <div class="d-flex align-items-center">
                 <label for="fontSizeSelect" class="me-2 mb-0">Letra:</label>
                 <select id="fontSizeSelect" class="form-select form-select-sm" style="width: auto;">
@@ -53,13 +52,15 @@
                     <option value="large">Grande</option>
                 </select>
             </div>
+
+            <button id="toggleMenuPosition" class="btn btn-outline-primary btn-sm">📐 Cambiar lado del menú</button>
+            <button id="toggleMenuType" class="btn btn-outline-info btn-sm">📑 Cambiar tipo de menú</button>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

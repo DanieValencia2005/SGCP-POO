@@ -1,62 +1,51 @@
 ﻿@{
     ViewData["Title"] = "Interfaz Principal";
+
     var rol = Context.Session.GetString("Rol");
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 sidebar">
-            <h5 class="text-center">Menú Principal</h5>
-            <ul class="nav flex-column mt-4 px-3">
-                @if (rol == "Estudiante")
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Informacions" asp-action="Actualizar">Actualizar información</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Programación Orientada a Objetos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Personalización</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Información del proyecto</a>
-                    </li>
-                }
-                else if (rol == "Administrador")
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Programación Orientada a Objetos</a>
-                    </li>
-                }
-            </ul>
-        </div>
+<div class="row flex-nowrap" id="menuRow">
+    <div id="sidebar" class="col-md-3 sidebar">
+        <h5 class="text-center">Menú Principal</h5>
+        <ul class="nav flex-column mt-4 px-3">
+            @if (rol == "Estudiante")
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Informacions" asp-action="Actualizar">Actualizar información</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#">Programación Orientada a Objetos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Personalización</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Información del proyecto</a></li>
+            }
+            else if (rol == "Administrador")
+            {
+                <li class="nav-item"><a class="nav-link" href="#">Gestión de contenidos</a></li>
+            }
+        </ul>
+    </div>
 
-        <div class="col-md-9 main-content">
-            <div class="info-card">
-                <h2>Bienvenido al Sistema de gestión del conocimiento para estudiantes de programación orientada a objetos (POO)</h2>
-                <p class="mt-3">
-                    Esta interfaz permite acceder a las funcionalidades principales del sistema. Utilice el menú lateral para navegar por las secciones disponibles.
-                </p>
+    <div id="mainContent" class="col-md-9 main-content">
+        <div class="info-card">
+            <h2>Bienvenido al Sistema de gestión del conocimiento</h2>
+            <p class="mt-3">Utiliza el menú lateral para navegar por las secciones disponibles.</p>
 
-                @if (rol == "Estudiante")
-                {
-                    <ul>
-                        <li><strong>Configuración de cuenta:</strong> gestiona tu información personal.</li>
-                        <li><strong>Programación Orientada a Objetos:</strong> accede a contenidos.</li>
-                        <li><strong>Personalización:</strong> ajusta el diseño del sistema.</li>
-                        <li><strong>Información del proyecto:</strong> consulta los objetivos y estructura.</li>
-                    </ul>
-                }
-                else if (rol == "Administrador")
-                {
-                    <ul>
-                        <li><strong>Programación Orientada a Objetos:</strong> gestiona contenidos y usuarios.</li>
-                    </ul>
-                }
+            @if (rol == "Estudiante")
+            {
+                <ul>
+                    <li><strong>Configuración de cuenta:</strong> gestiona tu información personal.</li>
+                    <li><strong>Programación Orientada a Objetos:</strong> accede a contenidos.</li>
+                    <li><strong>Personalización:</strong> ajusta el diseño del sistema.</li>
+                    <li><strong>Información del proyecto:</strong> consulta los objetivos.</li>
+                </ul>
+            }
+            else if (rol == "Administrador")
+            {
+                <ul>
+                    <li><strong>Administración:</strong> gestiona contenidos y usuarios.</li>
+                </ul>
+            }
 
-                <p class="mt-4 text-muted">Seleccione una opción para continuar.</p>
-            </div>
+            <p class="mt-4 text-muted">Seleccione una opción para continuar.</p>
         </div>
     </div>
 </div>
