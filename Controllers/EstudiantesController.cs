@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SGCP_POO.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SGCP_POO.Controllers
 {
@@ -27,17 +30,46 @@ namespace SGCP_POO.Controllers
             {
                 _context.Add(estudiante);
                 await _context.SaveChangesAsync();
-
-                // Redirigir a una vista de confirmación, login o donde prefieras
-                return RedirectToAction("Index", "Login"); // puedes cambiar esto
+                return RedirectToAction("Index", "Login");
             }
 
-            return View(estudiante); // Corrige esto, antes decía View("estudiante")
+            return View(estudiante);
         }
+
+        // GET: Estudiantes/Actualizar
         public IActionResult Actualizar()
         {
-            return View(); // Asegúrate de tener la vista "Actualizar.cshtml" dentro de Views/Estudiantes/
+            return View();
+        }
+
+        // GET: Estudiantes/POO
+        public IActionResult POO()
+        {
+            return View();
+        }
+
+        // GET: Estudiantes/GuardarRecurso
+        public IActionResult GuardarRecurso()
+        {
+            return View();
+        }
+
+        // GET: Estudiantes/BuscarRecurso
+        public IActionResult BuscarRecursos()
+        {
+            return View();
+        }
+        // Acción para cargar Área de Estudio
+        public IActionResult AreadeEstudio()
+        {
+            return View();
+        }
+        public IActionResult Repositorio()
+        {
+            return View();
         }
 
     }
 }
+
+

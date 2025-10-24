@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Área de Estudio";
+}
+
+<main class="container mt-4">
+    <h1 class="mb-4">Área de Estudio</h1>
+
+    <!-- ========================
+         Tarjeta de Conocimiento
+    ==========================-->
+    <section class="mb-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <!-- Nombre y fecha -->
+                <input type="text" class="form-control w-50" placeholder="Nombre de la tarjeta" />
+                <small class="text-muted">Última vez usado: @DateTime.Now.ToShortDateString()</small>
+            </div>
+
+            <div class="card-body">
+                <!-- Varios recursos -->
+                <h5>Recursos de conocimiento</h5>
+
+                <!-- Recurso 1 -->
+                <div class="border rounded p-3 mb-3">
+                    <h6>Título del recurso 1</h6>
+                    <p><strong>Descripción:</strong> Breve descripción del recurso...</p>
+                    <p><strong>Palabras clave:</strong> programación, POO, herencia</p>
+                    <p><strong>Tema:</strong> Polimorfismo</p>
+                    <p><strong>Formato:</strong> Video</p>
+                    <p><a href="#" target="_blank">Ver recurso</a></p>
+
+                    <!-- Retroalimentación -->
+                    <textarea class="form-control mb-2" rows="2" placeholder="Escribe tu retroalimentación..."></textarea>
+
+                    <!-- Calificación -->
+                    <select class="form-select mb-2">
+                        <option value="">Calificar</option>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐⭐</option>
+                        <option value="3">3 ⭐⭐⭐</option>
+                        <option value="4">4 ⭐⭐⭐⭐</option>
+                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                    </select>
+                </div>
+
+                <!-- Recurso 2 -->
+                <div class="border rounded p-3 mb-3">
+                    <h6>Título del recurso 2</h6>
+                    <p><strong>Descripción:</strong> Explicación de encapsulamiento en Python...</p>
+                    <p><strong>Palabras clave:</strong> encapsulamiento, python</p>
+                    <p><strong>Tema:</strong> Encapsulamiento</p>
+                    <p><strong>Formato:</strong> Tutorial</p>
+                    <p><a href="#" target="_blank">Ver recurso</a></p>
+
+                    <!-- Retroalimentación -->
+                    <textarea class="form-control mb-2" rows="2" placeholder="Escribe tu retroalimentación..."></textarea>
+
+                    <!-- Calificación -->
+                    <select class="form-select mb-2">
+                        <option value="">Calificar</option>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐⭐</option>
+                        <option value="3">3 ⭐⭐⭐</option>
+                        <option value="4">4 ⭐⭐⭐⭐</option>
+                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

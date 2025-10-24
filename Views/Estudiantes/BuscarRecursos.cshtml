@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Buscar recurso";
+}
+
+<main class="container mt-4">
+    <h1 class="mb-4">Buscar recurso</h1>
+
+    <section>
+        <h4>Búsqueda avanzada</h4>
+        <p class="text-muted">Utiliza los filtros para refinar los resultados:</p>
+
+        <form method="get" class="row g-3">
+            <!-- Tema -->
+            <div class="col-md-4">
+                <label for="tema" class="form-label">Tema</label>
+                <select id="tema" name="tema" class="form-select">
+                    <option value="">Seleccione...</option>
+                    <option value="fundamentos">Fundamentos</option>
+                    <option value="herencia">Herencia</option>
+                    <option value="polimorfismo">Polimorfismo</option>
+                    <option value="abstraccion">Abstracción</option>
+                </select>
+            </div>
+
+            <!-- Dificultad -->
+            <div class="col-md-4">
+                <label for="dificultad" class="form-label">Nivel de dificultad</label>
+                <select id="dificultad" name="dificultad" class="form-select">
+                    <option value="">Seleccione...</option>
+                    <option value="alta">Alta</option>
+                    <option value="media">Media</option>
+                    <option value="baja">Baja</option>
+                </select>
+            </div>
+
+            <!-- Formato -->
+            <div class="col-md-4">
+                <label for="formato" class="form-label">Formato del recurso</label>
+                <select id="formato" name="formato" class="form-select">
+                    <option value="">Seleccione...</option>
+                    <option value="video">Video</option>
+                    <option value="articulo">Artículo</option>
+                    <option value="enlace">Enlace</option>
+                    <option value="documento">Documento</option>
+                    <option value="ejemplo">Ejemplo de código</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
+            <!-- Botón buscar -->
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-success">Buscar</button>
+                <button type="reset" class="btn btn-secondary">Limpiar</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="mt-5">
+        <h4>Resultados de la búsqueda</h4>
+        <p class="text-muted">Aquí se mostrarán los recursos encontrados.</p>
+
+        <!-- Simulación de resultados (estáticos por ahora) -->
+        <div class="list-group">
+            <div class="list-group-item">
+                <h5>Artículo: Introducción a la POO</h5>
+                <p>Tema: Fundamentos | Dificultad: Baja | Formato: Artículo</p>
+                <a href="#" class="btn btn-sm btn-outline-primary">Ver recurso</a>
+                <a href="#" class="btn btn-sm btn-outline-primary">Guardar recurso</a>
+            </div>
+
+            <div class="list-group-item">
+                <h5>Video: Polimorfismo explicado</h5>
+                <p>Tema: Polimorfismo | Dificultad: Media | Formato: Video</p>
+                <a href="#" class="btn btn-sm btn-outline-primary">Ver recurso</a>
+                <a href="#" class="btn btn-sm btn-outline-primary">Guardar recurso</a>
+            </div>
+        </div>
+    </section>
+</main>
