@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "Repositorio de Conocimiento";
+}
+
+<main class="container mt-4">
+    <h1 class="mb-4">Repositorio de Conocimiento</h1>
+
+    <p class="text-muted">
+        Los recursos están organizados por <strong>tema</strong>.
+        Cada tarjeta de conocimiento puede contener varios recursos y opciones de retroalimentación.
+    </p>
+
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th colspan="3">Temas</th>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white">Programación Orientada a Objetos</th>
+                <th class="bg-secondary text-white">Encapsulamiento</th>
+                <th class="bg-info text-white">Polimorfismo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- Tema: Programación Orientada a Objetos -->
+                <td>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            Tarjeta: Fundamentos de POO <br />
+                            <small class="text-muted">Última vez usado: 05/09/2025</small>
+                        </div>
+                        <div class="card-body">
+                            <h6>Recursos utilizados</h6>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> POO en C#</p>
+                                <p><strong>Formato:</strong> Artículo</p>
+                                <a href="https://ejemplo.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> Patrones de diseño en POO</p>
+                                <p><strong>Formato:</strong> Libro digital</p>
+                                <a href="https://ejemplo4.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Tema: Encapsulamiento -->
+                <td>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            Tarjeta: Encapsulamiento en Python <br />
+                            <small class="text-muted">Última vez usado: 07/09/2025</small>
+                        </div>
+                        <div class="card-body">
+                            <h6>Recursos utilizados</h6>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> Encapsulamiento en Python</p>
+                                <p><strong>Formato:</strong> Tutorial</p>
+                                <a href="https://ejemplo6.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> Buenas prácticas en encapsulamiento</p>
+                                <p><strong>Formato:</strong> Artículo</p>
+                                <a href="https://ejemplo8.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Tema: Polimorfismo -->
+                <td>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            Tarjeta: Polimorfismo en JavaScript <br />
+                            <small class="text-muted">Última vez usado: 07/09/2025</small>
+                        </div>
+                        <div class="card-body">
+                            <h6>Recursos utilizados</h6>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> Polimorfismo en JS</p>
+                                <p><strong>Formato:</strong> Artículo</p>
+                                <a href="https://ejemplo7.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
+                                <p><strong>Título:</strong> Ejemplos de polimorfismo en ES6</p>
+                                <p><strong>Formato:</strong> Video</p>
+                                <a href="https://ejemplo9.com" target="_blank">Ver recurso</a>
+                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
+                                <select class="form-select mb-2">
+                                    <option value="">Calificar</option>
+                                    <option value="1">1 ⭐</option>
+                                    <option value="2">2 ⭐⭐</option>
+                                    <option value="3">3 ⭐⭐⭐</option>
+                                    <option value="4">4 ⭐⭐⭐⭐</option>
+                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
