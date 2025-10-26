@@ -1,10 +1,23 @@
+<<<<<<< HEAD
 ﻿@{
     ViewData["Title"] = "Guardar Recurso";
 }
+=======
+﻿@model SGCP_POO.Models.Recurso
+
+@{
+    ViewData["Title"] = "Guardar Recurso";
+}
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+>>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
 
 <div class="container mt-4">
     <h1 class="text-center mb-4">Agregar recurso</h1>
 
+<<<<<<< HEAD
     <form method="post" class="card shadow p-4">
         <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
@@ -29,11 +42,48 @@
         <div class="mb-3">
             <label for="dificultad" class="form-label">Nivel de dificultad</label>
             <select class="form-select" id="dificultad" name="dificultad" required>
+=======
+    <form asp-action="GuardarRecurso" asp-controller="Estudiantes" method="post" class="card shadow p-4">
+
+
+
+        <!-- IdEstudiante oculto, se asigna en el Controller -->
+        <input type="hidden" asp-for="IdEstudiante" />
+
+        <div class="mb-3">
+            <label asp-for="Titulo" class="form-label"></label>
+            <input asp-for="Titulo" class="form-control" placeholder="Título del recurso" required />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Descripcion" class="form-label"></label>
+            <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Descripción del recurso" required></textarea>
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PalabrasClave" class="form-label"></label>
+            <input asp-for="PalabrasClave" class="form-control" placeholder="Ej: programación, POO" required />
+            <span asp-validation-for="PalabrasClave" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Tema" class="form-label"></label>
+            <input asp-for="Tema" class="form-control" placeholder="Tema del recurso" required />
+            <span asp-validation-for="Tema" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Dificultad" class="form-label"></label>
+            <select asp-for="Dificultad" class="form-select" required>
+>>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
                 <option value="">Seleccione...</option>
                 <option value="alta">Alta</option>
                 <option value="media">Media</option>
                 <option value="baja">Baja</option>
             </select>
+<<<<<<< HEAD
         </div>
 
         <div class="mb-3">
@@ -44,6 +94,21 @@
         <div class="mb-3">
             <label for="enlace" class="form-label">Enlace de consulta</label>
             <input type="url" class="form-control" id="enlace" name="enlace" required>
+=======
+            <span asp-validation-for="Dificultad" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Formato" class="form-label"></label>
+            <input asp-for="Formato" class="form-control" placeholder="Artículo, video, documento..." required />
+            <span asp-validation-for="Formato" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Enlace" class="form-label"></label>
+            <input asp-for="Enlace" type="url" class="form-control" placeholder="Enlace de consulta" required />
+            <span asp-validation-for="Enlace" class="text-danger"></span>
+>>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Ingresar conocimiento</button>
@@ -51,3 +116,12 @@
 
     <p class="text-muted text-center mt-3">Todos los campos son obligatorios para registrar el recurso.</p>
 </div>
+<<<<<<< HEAD
+=======
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+>>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)

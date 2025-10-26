@@ -18,4 +18,6 @@ public partial class Estudiante
     public virtual ICollection<Registro> Registros { get; set; } = new List<Registro>();
 
     public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+    public virtual ICollection<Recurso> Recursos { get; set; } = new List<Recurso>();
+
 }

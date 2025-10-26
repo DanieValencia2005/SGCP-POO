@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurar el contexto de base de datos
 builder.Services.AddDbContext<SGCPContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SGCP_POO"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("2a"));
 });
 
 // Habilitar controladores y vistas
