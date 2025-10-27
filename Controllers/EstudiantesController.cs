@@ -32,42 +32,6 @@ namespace SGCP_POO.Controllers
             }
 
             return View(estudiante);
-<<<<<<< HEAD
-        }
-
-        // GET: Estudiantes/Actualizar
-        public IActionResult Actualizar()
-        {
-            return View();
-        }
-
-        // GET: Estudiantes/POO
-        public IActionResult POO()
-        {
-            return View();
-        }
-
-        // GET: Estudiantes/GuardarRecurso
-        public IActionResult GuardarRecurso()
-        {
-            return View();
-        }
-
-        // GET: Estudiantes/BuscarRecurso
-        public IActionResult BuscarRecursos()
-        {
-            return View();
-        }
-        // Acción para cargar Área de Estudio
-        public IActionResult AreadeEstudio()
-        {
-            return View();
-        }
-        public IActionResult Repositorio()
-        {
-            return View();
-=======
->>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
         }
 
         public IActionResult Actualizar()
@@ -142,5 +106,3 @@ namespace SGCP_POO.Controllers
         }
     }
 }
-
-

@@ -12,7 +12,6 @@
         <p class="text-muted">Utiliza los filtros para refinar los resultados:</p>
 
         <form method="get" class="row g-3">
-            <!-- Tema -->
             <div class="col-md-4">
                 <label for="tema" class="form-label">Tema</label>
                 <select id="tema" name="tema" class="form-select">
@@ -24,7 +23,6 @@
                 </select>
             </div>
 
-            <!-- Dificultad -->
             <div class="col-md-4">
                 <label for="dificultad" class="form-label">Nivel de dificultad</label>
                 <select id="dificultad" name="dificultad" class="form-select">
@@ -35,7 +33,6 @@
                 </select>
             </div>
 
-            <!-- Formato -->
             <div class="col-md-4">
                 <label for="formato" class="form-label">Formato del recurso</label>
                 <select id="formato" name="formato" class="form-select">
@@ -49,7 +46,6 @@
                 </select>
             </div>
 
-            <!-- Botón buscar -->
             <div class="col-12 mt-3">
                 <button type="submit" class="btn btn-success">Buscar</button>
                 <a href="/Estudiantes/BuscarRecursos" class="btn btn-secondary">Limpiar</a>
@@ -62,9 +58,11 @@
         <p class="text-muted">Aquí se mostrarán los recursos encontrados.</p>
 
         @if (Model != null && Model.Any())
+
         {
             <div class="list-group">
                 @foreach (var recurso in Model)
+
                 {
                     <div class="list-group-item mb-3 shadow-sm p-3 rounded-3 border-0" style="background-color: #f9f9f9;">
 
@@ -93,7 +91,9 @@
                 }
             </div>
         }
+
         else
+
         {
             <div class="alert alert-info mt-4" role="alert">
                 No se encontraron recursos con los filtros seleccionados.
