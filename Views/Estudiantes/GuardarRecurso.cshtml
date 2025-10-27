@@ -1,52 +1,19 @@
-<<<<<<< HEAD
-﻿@{
-    ViewData["Title"] = "Guardar Recurso";
-}
-=======
-﻿@model SGCP_POO.Models.Recurso
+@model SGCP_POO.Models.Recurso
 
 @{
     ViewData["Title"] = "Guardar Recurso";
 }
+
 @if (ViewBag.Message != null)
+
 {
     <div class="alert alert-success">@ViewBag.Message</div>
 }
->>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
 
 <div class="container mt-4">
     <h1 class="text-center mb-4">Agregar recurso</h1>
 
-<<<<<<< HEAD
-    <form method="post" class="card shadow p-4">
-        <div class="mb-3">
-            <label for="titulo" class="form-label">Título</label>
-            <input type="text" class="form-control" id="titulo" name="titulo" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="palabras" class="form-label">Palabras clave</label>
-            <input type="text" class="form-control" id="palabras" name="palabras" placeholder="Ej: programación, POO" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="tema" class="form-label">Tema</label>
-            <input type="text" class="form-control" id="tema" name="tema" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="dificultad" class="form-label">Nivel de dificultad</label>
-            <select class="form-select" id="dificultad" name="dificultad" required>
-=======
     <form asp-action="GuardarRecurso" asp-controller="Estudiantes" method="post" class="card shadow p-4">
-
-
-
         <!-- IdEstudiante oculto, se asigna en el Controller -->
         <input type="hidden" asp-for="IdEstudiante" />
 
@@ -77,24 +44,11 @@
         <div class="mb-3">
             <label asp-for="Dificultad" class="form-label"></label>
             <select asp-for="Dificultad" class="form-select" required>
->>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
                 <option value="">Seleccione...</option>
                 <option value="alta">Alta</option>
                 <option value="media">Media</option>
                 <option value="baja">Baja</option>
             </select>
-<<<<<<< HEAD
-        </div>
-
-        <div class="mb-3">
-            <label for="formato" class="form-label">Formato del recurso</label>
-            <input type="text" class="form-control" id="formato" name="formato" placeholder="Artículo, video, documento..." required>
-        </div>
-
-        <div class="mb-3">
-            <label for="enlace" class="form-label">Enlace de consulta</label>
-            <input type="url" class="form-control" id="enlace" name="enlace" required>
-=======
             <span asp-validation-for="Dificultad" class="text-danger"></span>
         </div>
 
@@ -108,7 +62,6 @@
             <label asp-for="Enlace" class="form-label"></label>
             <input asp-for="Enlace" type="url" class="form-control" placeholder="Enlace de consulta" required />
             <span asp-validation-for="Enlace" class="text-danger"></span>
->>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Ingresar conocimiento</button>
@@ -116,12 +69,9 @@
 
     <p class="text-muted text-center mt-3">Todos los campos son obligatorios para registrar el recurso.</p>
 </div>
-<<<<<<< HEAD
-=======
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
->>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
