@@ -15,16 +15,14 @@ namespace SGCP_POO.Controllers
             _context = context;
         }
 
-        // GET: Estudiantes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Estudiantes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEstudiante,Nombre,CorreoInstitucional,Contraseña")] Estudiante estudiante)
+        public async Task<IActionResult> CreateEstudiante([Bind("IdEstudiante,Nombre,CorreoInstitucional,Contraseña")] Estudiante estudiante)
         {
             if (ModelState.IsValid)
             {
@@ -34,6 +32,7 @@ namespace SGCP_POO.Controllers
             }
 
             return View(estudiante);
+<<<<<<< HEAD
         }
 
         // GET: Estudiantes/Actualizar
@@ -67,8 +66,80 @@ namespace SGCP_POO.Controllers
         public IActionResult Repositorio()
         {
             return View();
+=======
+>>>>>>> 0f34125 (Opcion buscar recurso en desarrollo y guardar recurso finalizada)
         }
 
+        public IActionResult Actualizar()
+        {
+            return View();
+        }
+
+        public IActionResult POO()
+        {
+            return View();
+        }
+
+        public IActionResult GuardarRecurso()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GuardarRecurso([Bind("Titulo,Descripcion,PalabrasClave,Tema,Dificultad,Formato,Enlace")] Recurso recurso)
+        {
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+            if (idEstudiante == null)
+            {
+                ModelState.AddModelError("", "No se encontró la sesión del estudiante.");
+                return View(recurso);
+            }
+
+            recurso.IdEstudiante = idEstudiante.Value;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(recurso);
+                await _context.SaveChangesAsync();
+
+                ViewBag.Message = "✅ Recurso guardado correctamente.";
+                ModelState.Clear();
+                return View();
+            }
+
+            return View(recurso);
+        }
+
+        public async Task<IActionResult> BuscarRecursos(string tema, string dificultad, string formato)
+        {
+            var recursos = from r in _context.Recursos select r;
+
+            if (!string.IsNullOrEmpty(tema))
+                recursos = recursos.Where(r => r.Tema != null && r.Tema.Contains(tema));
+
+            if (!string.IsNullOrEmpty(dificultad))
+                recursos = recursos.Where(r => r.Dificultad != null && r.Dificultad == dificultad);
+
+            if (!string.IsNullOrEmpty(formato))
+                recursos = recursos.Where(r => r.Formato != null && r.Formato.Contains(formato));
+
+            ViewBag.Tema = tema;
+            ViewBag.Dificultad = dificultad;
+            ViewBag.Formato = formato;
+
+            return View(await recursos.ToListAsync());
+        }
+
+        public IActionResult AreadeEstudio()
+        {
+            return View();
+        }
+
+        public IActionResult Repositorio()
+        {
+            return View();
+        }
     }
 }
 

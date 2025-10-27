@@ -25,6 +25,8 @@ public partial class SGCPContext : DbContext
     public virtual DbSet<Registro> Registros { get; set; }
 
     public virtual DbSet<Sesion> Sesions { get; set; }
+    public virtual DbSet<Recurso> Recursos { get; set; }
+
 
     /*
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -172,6 +174,52 @@ public partial class SGCPContext : DbContext
             entity.HasOne(d => d.IdEstudianteNavigation).WithMany(p => p.Sesions)
                 .HasForeignKey(d => d.IdEstudiante)
                 .HasConstraintName("FK__Sesion__id_estud__45F365D3");
+
+            modelBuilder.Entity<Recurso>(entity =>
+            {
+                entity.HasKey(e => e.IdRecurso).HasName("PK__Recurso__82565C080");
+
+                entity.ToTable("Recurso");
+
+                entity.Property(e => e.IdRecurso)
+     .HasColumnName("id_recurso")
+     .ValueGeneratedOnAdd();
+                entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+                entity.Property(e => e.Titulo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("titulo");
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(700)
+                    .IsUnicode(false)
+                    .HasColumnName("descripcion");
+                entity.Property(e => e.PalabrasClave)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("palabras_clave");
+                entity.Property(e => e.Tema)
+                    .HasMaxLength(40)
+                    .IsUnicode(false)
+                    .HasColumnName("tema");
+                entity.Property(e => e.Dificultad)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("dificultad");
+                entity.Property(e => e.Formato)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("formato");
+                entity.Property(e => e.Enlace)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("enlace");
+
+                entity.HasOne(d => d.IdEstudianteNavigation)
+                    .WithMany(p => p.Recursos)
+                    .HasForeignKey(d => d.IdEstudiante)
+                    .HasConstraintName("FK__Recurso__id_estu__4BAC3F29");
+            });
+
         });
 
         OnModelCreatingPartial(modelBuilder);
