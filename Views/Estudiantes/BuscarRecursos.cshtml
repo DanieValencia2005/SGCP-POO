@@ -7,20 +7,33 @@
 <main class="container mt-4">
     <h1 class="mb-4">Buscar recurso</h1>
 
+    <div class="d-flex gap-2 mb-3">
+        <a asp-controller="Estudiantes" asp-action="POO" class="btn btn-outline-primary">
+            Volver a POO
+        </a>
+    </div>
     <section>
         <h4>Búsqueda avanzada</h4>
         <p class="text-muted">Utiliza los filtros para refinar los resultados:</p>
 
-        <form method="get" class="row g-3">
+        <form asp-controller="Estudiantes" asp-action="BuscarRecursos" method="get" class="row g-3">
             <div class="col-md-4">
                 <label for="tema" class="form-label">Tema</label>
                 <select id="tema" name="tema" class="form-select">
                     <option value="">Seleccione...</option>
                     <option value="fundamentos" selected="@(ViewBag.Tema == "fundamentos")">Fundamentos</option>
+                    <option value="clases" selected="@(ViewBag.Tema == "clases")">Clases</option>
+                    <option value="objetos" selected="@(ViewBag.Tema == "objetos")">Objetos</option>
                     <option value="herencia" selected="@(ViewBag.Tema == "herencia")">Herencia</option>
                     <option value="polimorfismo" selected="@(ViewBag.Tema == "polimorfismo")">Polimorfismo</option>
                     <option value="abstraccion" selected="@(ViewBag.Tema == "abstraccion")">Abstracción</option>
+                    <option value="encapsulamiento" selected="@(ViewBag.Tema == "encapsulamiento")">Encapsulamiento</option>
+                    <option value="interfaces" selected="@(ViewBag.Tema == "interfaces")">Interfaces</option>
+                    <option value="constructores" selected="@(ViewBag.Tema == "constructores")">Constructores</option>
+                    <option value="metodos" selected="@(ViewBag.Tema == "metodos")">Métodos</option>
+                    <option value="atributos" selected="@(ViewBag.Tema == "atributos")">Atributos</option>
                 </select>
+
             </div>
 
             <div class="col-md-4">
@@ -44,11 +57,14 @@
                     <option value="ejemplo" selected="@(ViewBag.Formato == "ejemplo")">Ejemplo de código</option>
                     <option value="otro" selected="@(ViewBag.Formato == "otro")">Otro</option>
                 </select>
+
             </div>
 
             <div class="col-12 mt-3">
                 <button type="submit" class="btn btn-success">Buscar</button>
-                <a href="/Estudiantes/BuscarRecursos" class="btn btn-secondary">Limpiar</a>
+                <a asp-controller="Estudiantes" asp-action="BuscarRecursos"
+                   class="btn btn-secondary">Limpiar</a>
+
             </div>
         </form>
     </section>

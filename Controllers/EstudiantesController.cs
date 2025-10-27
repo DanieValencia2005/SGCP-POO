@@ -77,7 +77,15 @@ namespace SGCP_POO.Controllers
 
         public async Task<IActionResult> BuscarRecursos(string tema, string dificultad, string formato)
         {
-            var recursos = from r in _context.Recursos select r;
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+            if (idEstudiante == null)
+            {
+                return RedirectToAction("Index", "Login"); // Si no hay sesión, redirige al login
+            }
+
+            var recursos = _context.Recursos
+                .Where(r => r.IdEstudiante == idEstudiante.Value) // ✅ Solo recursos del estudiante
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(tema))
                 recursos = recursos.Where(r => r.Tema != null && r.Tema.Contains(tema));
@@ -94,6 +102,7 @@ namespace SGCP_POO.Controllers
 
             return View(await recursos.ToListAsync());
         }
+
 
         public IActionResult AreadeEstudio()
         {
