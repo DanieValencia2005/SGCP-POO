@@ -24,5 +24,8 @@ public partial class Recurso
     public string? Enlace { get; set; }
 
     public virtual Estudiante? IdEstudianteNavigation { get; set; }
+    public virtual ICollection<Retroalimentacion> Retroalimentaciones { get; set; } = new List<Retroalimentacion>();
+    public virtual ICollection<AreaEstudio> AreaEstudios { get; set; } = new List<AreaEstudio>();
+
 
 }

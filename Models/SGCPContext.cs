@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 
 namespace SGCP_POO.Models;
 
@@ -26,6 +27,10 @@ public partial class SGCPContext : DbContext
 
     public virtual DbSet<Sesion> Sesions { get; set; }
     public virtual DbSet<Recurso> Recursos { get; set; }
+    public virtual DbSet<AreaEstudio> AreaEstudios { get; set; }
+    public virtual DbSet<Repositorio> Repositorios { get; set; }
+    public virtual DbSet<Retroalimentacion> Retroalimentacions { get; set; }
+
 
 
     /*
@@ -175,52 +180,96 @@ public partial class SGCPContext : DbContext
                 .HasForeignKey(d => d.IdEstudiante)
                 .HasConstraintName("FK__Sesion__id_estud__45F365D3");
 
-            modelBuilder.Entity<Recurso>(entity =>
-            {
-                entity.HasKey(e => e.IdRecurso).HasName("PK__Recurso__82565C080");
-
-                entity.ToTable("Recurso");
-
-                entity.Property(e => e.IdRecurso)
-     .HasColumnName("id_recurso")
-     .ValueGeneratedOnAdd();
-                entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
-                entity.Property(e => e.Titulo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("titulo");
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(700)
-                    .IsUnicode(false)
-                    .HasColumnName("descripcion");
-                entity.Property(e => e.PalabrasClave)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("palabras_clave");
-                entity.Property(e => e.Tema)
-                    .HasMaxLength(40)
-                    .IsUnicode(false)
-                    .HasColumnName("tema");
-                entity.Property(e => e.Dificultad)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("dificultad");
-                entity.Property(e => e.Formato)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("formato");
-                entity.Property(e => e.Enlace)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasColumnName("enlace");
-
-                entity.HasOne(d => d.IdEstudianteNavigation)
-                    .WithMany(p => p.Recursos)
-                    .HasForeignKey(d => d.IdEstudiante)
-                    .HasConstraintName("FK__Recurso__id_estu__4BAC3F29");
             });
+        modelBuilder.Entity<Recurso>(entity =>
+        {
+            entity.ToTable("Recurso");
+            entity.HasKey(e => e.IdRecurso);
 
+            entity.Property(e => e.IdRecurso).HasColumnName("id_recurso");
+            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+
+            entity.Property(e => e.Titulo).HasColumnName("titulo").HasMaxLength(100);
+            entity.Property(e => e.Descripcion).HasColumnName("descripcion").HasMaxLength(700);
+            entity.Property(e => e.PalabrasClave).HasColumnName("palabras_clave").HasMaxLength(100);
+            entity.Property(e => e.Tema).HasColumnName("tema").HasMaxLength(40);
+            entity.Property(e => e.Dificultad).HasColumnName("dificultad").HasMaxLength(5);
+            entity.Property(e => e.Formato).HasColumnName("formato").HasMaxLength(20);
+            entity.Property(e => e.Enlace).HasColumnName("enlace").HasMaxLength(1000);
+
+            entity.HasOne(e => e.IdEstudianteNavigation)
+                .WithMany(p => p.Recursos)
+                .HasForeignKey(e => e.IdEstudiante);
         });
+
+        modelBuilder.Entity<AreaEstudio>(entity =>
+        {
+            entity.ToTable("Area_Estudio");
+            entity.HasKey(e => e.IdAreaEstudio);
+
+            entity.Property(e => e.IdAreaEstudio).HasColumnName("id_area_estudio");
+            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+
+            entity.Property(e => e.IdRecurso).HasColumnName("id_recurso"); // ✅ CORREGIDO
+
+            entity.Property(e => e.NombreTarjeta).HasColumnName("nombre_tarjeta").HasMaxLength(40);
+            entity.Property(e => e.FechaUso).HasColumnName("fecha_uso").HasColumnType("datetime");
+
+            entity.HasOne(e => e.IdEstudianteNavigation)
+                .WithMany(e => e.AreaEstudios)
+                .HasForeignKey(e => e.IdEstudiante)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Recurso)
+                .WithMany(e => e.AreaEstudios)
+                .HasForeignKey(e => e.IdRecurso)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
+        modelBuilder.Entity<Retroalimentacion>(entity =>
+        {
+            entity.ToTable("Retroalimentacion");
+            entity.HasKey(e => e.IdRetroalimentacion);
+
+            entity.Property(e => e.IdRetroalimentacion).HasColumnName("id_retroalimentacion");
+            entity.Property(e => e.IdRecurso).HasColumnName("id_recurso");
+
+            entity.Property(e => e.RetroalimentacionTexto).HasColumnName("retroalimentacion").HasMaxLength(1000);
+            entity.Property(e => e.Calificacion).HasColumnName("calificacion");
+
+            entity.HasOne(e => e.Recurso)
+                .WithMany(p => p.Retroalimentaciones)
+                .HasForeignKey(e => e.IdRecurso)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Repositorio>(entity =>
+        {
+            entity.ToTable("Repositorio");
+            entity.HasKey(e => e.IdRepositorio);
+
+            entity.Property(e => e.IdRepositorio).HasColumnName("id_repositorio");
+            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+            entity.Property(e => e.IdAreaEstudio).HasColumnName("id_area_estudio");
+
+            entity.HasOne(e => e.IdEstudianteNavigation)
+                .WithMany(p => p.Repositorios)
+                .HasForeignKey(e => e.IdEstudiante)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Repositorio_Estudiante");
+
+            entity.HasOne(e => e.IdAreaEstudioNavigation)
+                .WithMany(p => p.Repositorios)
+                .HasForeignKey(e => e.IdAreaEstudio)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Repositorio_AreaEstudio");
+        });
+
+
+
+
+
 
         OnModelCreatingPartial(modelBuilder);
     }

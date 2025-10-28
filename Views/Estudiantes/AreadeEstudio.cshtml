@@ -1,71 +1,79 @@
-﻿@{
-    ViewData["Title"] = "Área de Estudio";
+﻿@model IEnumerable<SGCP_POO.Models.AreaEstudio>
+
+@{
+    ViewData["Title"] = "AreaEstudio";
 }
 
 <main class="container mt-4">
     <h1 class="mb-4">Área de Estudio</h1>
 
-    <!-- ========================
-         Tarjeta de Conocimiento
-    ==========================-->
-    <section class="mb-5">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <!-- Nombre y fecha -->
-                <input type="text" class="form-control w-50" placeholder="Nombre de la tarjeta" />
-                <small class="text-muted">Última vez usado: @DateTime.Now.ToShortDateString()</small>
-            </div>
+    @if (Model != null && Model.Any())
 
-            <div class="card-body">
-                <!-- Varios recursos -->
-                <h5>Recursos de conocimiento</h5>
+    {
+        <!-- Agrupar por tarjeta -->
+        var tarjetas = Model.GroupBy(t => t.NombreTarjeta);
 
-                <!-- Recurso 1 -->
-                <div class="border rounded p-3 mb-3">
-                    <h6>Título del recurso 1</h6>
-                    <p><strong>Descripción:</strong> Breve descripción del recurso...</p>
-                    <p><strong>Palabras clave:</strong> programación, POO, herencia</p>
-                    <p><strong>Tema:</strong> Polimorfismo</p>
-                    <p><strong>Formato:</strong> Video</p>
-                    <p><a href="#" target="_blank">Ver recurso</a></p>
 
-                    <!-- Retroalimentación -->
-                    <textarea class="form-control mb-2" rows="2" placeholder="Escribe tu retroalimentación..."></textarea>
 
-                    <!-- Calificación -->
-                    <select class="form-select mb-2">
-                        <option value="">Calificar</option>
-                        <option value="1">1 ⭐</option>
-                        <option value="2">2 ⭐⭐</option>
-                        <option value="3">3 ⭐⭐⭐</option>
-                        <option value="4">4 ⭐⭐⭐⭐</option>
-                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                    </select>
+        foreach (var tarjeta in tarjetas)
+
+        {
+            <section class="mb-5">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@tarjeta.Key</h5>
+                        <small class="text-muted">
+                            Última vez usado: @tarjeta.Max(t => t.FechaUso).ToShortDateString()
+                        </small>
+                    </div>
+
+                    <div class="card-body">
+                        <h6 class="mb-3">Recursos guardados</h6>
+
+                        @foreach (var area in tarjeta)
+
+                        {
+
+                            var recurso = area.Recurso;
+
+                            if (recurso != null)
+
+                            {
+                                <div class="border rounded p-3 mb-3">
+                                    <h6 class="fw-bold text-primary">@recurso.Titulo</h6>
+
+                                    <p><strong>Descripción:</strong> @recurso.Descripcion</p>
+                                    <p><strong>Palabras clave:</strong> @recurso.PalabrasClave</p>
+                                    <p><strong>Tema:</strong> @recurso.Tema</p>
+                                    <p><strong>Formato:</strong> @recurso.Formato</p>
+
+                                    @if (!string.IsNullOrEmpty(recurso.Enlace))
+
+                                    {
+                                        <a href="@recurso.Enlace" target="_blank" class="btn btn-sm btn-outline-primary">Ver recurso</a>
+                                    }
+
+                                    else
+
+                                    {
+                                        <span class="text-muted">Sin enlace disponible</span>
+                                    }
+                                </div>
+                            }
+
+                        }
+                    </div>
                 </div>
+            </section>
+        }
 
-                <!-- Recurso 2 -->
-                <div class="border rounded p-3 mb-3">
-                    <h6>Título del recurso 2</h6>
-                    <p><strong>Descripción:</strong> Explicación de encapsulamiento en Python...</p>
-                    <p><strong>Palabras clave:</strong> encapsulamiento, python</p>
-                    <p><strong>Tema:</strong> Encapsulamiento</p>
-                    <p><strong>Formato:</strong> Tutorial</p>
-                    <p><a href="#" target="_blank">Ver recurso</a></p>
+    }
 
-                    <!-- Retroalimentación -->
-                    <textarea class="form-control mb-2" rows="2" placeholder="Escribe tu retroalimentación..."></textarea>
+    else
 
-                    <!-- Calificación -->
-                    <select class="form-select mb-2">
-                        <option value="">Calificar</option>
-                        <option value="1">1 ⭐</option>
-                        <option value="2">2 ⭐⭐</option>
-                        <option value="3">3 ⭐⭐⭐</option>
-                        <option value="4">4 ⭐⭐⭐⭐</option>
-                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                    </select>
-                </div>
-            </div>
+    {
+        <div class="alert alert-info mt-4" role="alert">
+            No tienes recursos guardados aún.
         </div>
-    </section>
+    }
 </main>

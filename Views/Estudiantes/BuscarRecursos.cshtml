@@ -100,7 +100,12 @@
                                 <button class="btn btn-sm btn-outline-secondary me-2" disabled>Sin enlace</button>
                             }
 
-                            <a href="#" class="btn btn-sm btn-outline-success">Guardar recurso</a>
+                                  <form asp-controller="Estudiantes" asp-action="GuardarEnAreaEstudio" method="post" class="d-inline">
+            <input type="hidden" name="id" value="@recurso.IdRecurso" />
+            <button type="submit" class="btn btn-sm btn-outline-success">Guardar recurso</button>
+        </form>
+
+
                         </div>
 
                     </div>
