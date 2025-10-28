@@ -10,11 +10,18 @@
     <div class="alert alert-success">@ViewBag.Message</div>
 }
 
-<div class="container mt-4">
+<div class="container mt-3">
+
+
+    <div class="d-flex gap-2 mb-3">
+        <a asp-controller="Estudiantes" asp-action="POO" class="btn btn-outline-primary">
+          Volver a POO
+        </a>
+    </div>
+
     <h1 class="text-center mb-4">Agregar recurso</h1>
 
     <form asp-action="GuardarRecurso" asp-controller="Estudiantes" method="post" class="card shadow p-4">
-        <!-- IdEstudiante oculto, se asigna en el Controller -->
         <input type="hidden" asp-for="IdEstudiante" />
 
         <div class="mb-3">
@@ -25,7 +32,8 @@
 
         <div class="mb-3">
             <label asp-for="Descripcion" class="form-label"></label>
-            <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Descripción del recurso" required></textarea>
+            <textarea asp-for="Descripcion" class="form-control" rows="3"
+                      placeholder="Descripción del recurso" required></textarea>
             <span asp-validation-for="Descripcion" class="text-danger"></span>
         </div>
 
@@ -37,9 +45,23 @@
 
         <div class="mb-3">
             <label asp-for="Tema" class="form-label"></label>
-            <input asp-for="Tema" class="form-control" placeholder="Tema del recurso" required />
+            <select asp-for="Tema" class="form-select" required>
+                <option value="">Seleccione...</option>
+                <option value="fundamentos">Fundamentos</option>
+                <option value="clases">Clases</option>
+                <option value="objetos">Objetos</option>
+                <option value="herencia">Herencia</option>
+                <option value="polimorfismo">Polimorfismo</option>
+                <option value="abstraccion">Abstracción</option>
+                <option value="encapsulamiento">Encapsulamiento</option>
+                <option value="interfaces">Interfaces</option>
+                <option value="constructores">Constructores</option>
+                <option value="metodos">Métodos</option>
+                <option value="atributos">Atributos</option>
+            </select>
             <span asp-validation-for="Tema" class="text-danger"></span>
         </div>
+
 
         <div class="mb-3">
             <label asp-for="Dificultad" class="form-label"></label>
@@ -54,9 +76,18 @@
 
         <div class="mb-3">
             <label asp-for="Formato" class="form-label"></label>
-            <input asp-for="Formato" class="form-control" placeholder="Artículo, video, documento..." required />
+            <select asp-for="Formato" class="form-select" required>
+                <option value="">Seleccione...</option>
+                <option value="video">Video</option>
+                <option value="articulo">Artículo</option>
+                <option value="enlace">Enlace</option>
+                <option value="documento">Documento</option>
+                <option value="ejemplo">Ejemplo de código</option>
+                <option value="otro">Otro</option>
+            </select>
             <span asp-validation-for="Formato" class="text-danger"></span>
         </div>
+
 
         <div class="mb-3">
             <label asp-for="Enlace" class="form-label"></label>
