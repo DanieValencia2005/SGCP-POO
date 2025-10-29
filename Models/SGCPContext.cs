@@ -27,10 +27,8 @@ public partial class SGCPContext : DbContext
 
     public virtual DbSet<Sesion> Sesions { get; set; }
     public virtual DbSet<Recurso> Recursos { get; set; }
-    public virtual DbSet<AreaEstudio> AreaEstudios { get; set; }
-    public virtual DbSet<Repositorio> Repositorios { get; set; }
-    public virtual DbSet<Retroalimentacion> Retroalimentacions { get; set; }
-
+    public virtual DbSet<TarjetaConocimiento> TarjetasConocimiento { get; set; }
+    public virtual DbSet<TarjetaRecurso> TarjetasRecursos { get; set; }
 
 
     /*
@@ -202,72 +200,45 @@ public partial class SGCPContext : DbContext
                 .HasForeignKey(e => e.IdEstudiante);
         });
 
-        modelBuilder.Entity<AreaEstudio>(entity =>
+        modelBuilder.Entity<TarjetaConocimiento>(entity =>
         {
-            entity.ToTable("Area_Estudio");
-            entity.HasKey(e => e.IdAreaEstudio);
+            entity.ToTable("TarjetaConocimiento");
+            entity.HasKey(e => e.IdTarjeta);
 
-            entity.Property(e => e.IdAreaEstudio).HasColumnName("id_area_estudio");
+            entity.Property(e => e.IdTarjeta).HasColumnName("id_tarjeta");
             entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
+            entity.Property(e => e.NombreTarjeta).HasColumnName("nombre_tarjeta");
+            entity.Property(e => e.FechaCreacion)
+                  .HasColumnName("fecha_creacion")
+                  .HasDefaultValueSql("GETDATE()");
 
-            entity.Property(e => e.IdRecurso).HasColumnName("id_recurso"); // ✅ CORREGIDO
-
-            entity.Property(e => e.NombreTarjeta).HasColumnName("nombre_tarjeta").HasMaxLength(40);
-            entity.Property(e => e.FechaUso).HasColumnName("fecha_uso").HasColumnType("datetime");
-
-            entity.HasOne(e => e.IdEstudianteNavigation)
-                .WithMany(e => e.AreaEstudios)
-                .HasForeignKey(e => e.IdEstudiante)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasOne(e => e.Recurso)
-                .WithMany(e => e.AreaEstudios)
-                .HasForeignKey(e => e.IdRecurso)
-                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.Estudiante)
+                  .WithMany(e => e.Tarjetas)
+                  .HasForeignKey(e => e.IdEstudiante);
         });
 
-
-        modelBuilder.Entity<Retroalimentacion>(entity =>
+        modelBuilder.Entity<TarjetaRecurso>(entity =>
         {
-            entity.ToTable("Retroalimentacion");
-            entity.HasKey(e => e.IdRetroalimentacion);
+            entity.ToTable("TarjetaRecurso");
+            entity.HasKey(e => e.IdTarjetaRecurso);
 
-            entity.Property(e => e.IdRetroalimentacion).HasColumnName("id_retroalimentacion");
+            entity.Property(e => e.IdTarjetaRecurso).HasColumnName("id_tarjeta_recurso");
+            entity.Property(e => e.IdTarjeta).HasColumnName("id_tarjeta");
             entity.Property(e => e.IdRecurso).HasColumnName("id_recurso");
-
-            entity.Property(e => e.RetroalimentacionTexto).HasColumnName("retroalimentacion").HasMaxLength(1000);
+            entity.Property(e => e.Retroalimentacion).HasColumnName("retroalimentacion");
             entity.Property(e => e.Calificacion).HasColumnName("calificacion");
+            entity.Property(e => e.FechaRegistro)
+                  .HasColumnName("fecha_registro")
+                  .HasDefaultValueSql("GETDATE()");
+
+            entity.HasOne(e => e.Tarjeta)
+                  .WithMany(t => t.TarjetasRecursos)
+                  .HasForeignKey(e => e.IdTarjeta);
 
             entity.HasOne(e => e.Recurso)
-                .WithMany(p => p.Retroalimentaciones)
-                .HasForeignKey(e => e.IdRecurso)
-                .OnDelete(DeleteBehavior.Cascade);
+                  .WithMany(r => r.TarjetaRecursos)
+                  .HasForeignKey(e => e.IdRecurso);
         });
-
-        modelBuilder.Entity<Repositorio>(entity =>
-        {
-            entity.ToTable("Repositorio");
-            entity.HasKey(e => e.IdRepositorio);
-
-            entity.Property(e => e.IdRepositorio).HasColumnName("id_repositorio");
-            entity.Property(e => e.IdEstudiante).HasColumnName("id_estudiante");
-            entity.Property(e => e.IdAreaEstudio).HasColumnName("id_area_estudio");
-
-            entity.HasOne(e => e.IdEstudianteNavigation)
-                .WithMany(p => p.Repositorios)
-                .HasForeignKey(e => e.IdEstudiante)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Repositorio_Estudiante");
-
-            entity.HasOne(e => e.IdAreaEstudioNavigation)
-                .WithMany(p => p.Repositorios)
-                .HasForeignKey(e => e.IdAreaEstudio)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Repositorio_AreaEstudio");
-        });
-
-
-
 
 
 

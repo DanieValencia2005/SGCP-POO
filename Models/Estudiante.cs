@@ -19,7 +19,6 @@ public partial class Estudiante
 
     public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
     public virtual ICollection<Recurso> Recursos { get; set; } = new List<Recurso>();
-    public virtual ICollection<AreaEstudio> AreaEstudios { get; set; } = new List<AreaEstudio>();
-    public virtual ICollection<Repositorio> Repositorios { get; set; } = new List<Repositorio>();
+    public virtual ICollection<TarjetaConocimiento> Tarjetas { get; set; } = new List<TarjetaConocimiento>();
 
 }
