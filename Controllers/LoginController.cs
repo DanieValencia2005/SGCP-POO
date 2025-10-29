@@ -21,7 +21,7 @@ namespace SGCP_POO.Controllers
         // GET: Registro
         public IActionResult Registro()
         {
-            return View(); // Esto carga Views/Login/Registro.cshtml
+            return View(); // carga Views/Login/Registro.cshtml
         }
 
         // POST: Login

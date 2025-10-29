@@ -16,9 +16,12 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Estudiantes" asp-action="POO">Programación Orientada a Objetos</a>
                 </li>
-
-                <li class="nav-item"><a class="nav-link" href="#">Personalización</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Información del proyecto</a></li>
+                   <li class="nav-item">
+                    <a class="nav-link" asp-controller="Estudiantes" asp-action="Personalizacion">Personalización</a>
+                </li>
+                   <li class="nav-item">
+                    <a class="nav-link" asp-controller="Estudiantes" asp-action="Informacion_Proyecto">Información del proyecto</a>
+                </li>
             }
             else if (rol == "Administrador")
             {

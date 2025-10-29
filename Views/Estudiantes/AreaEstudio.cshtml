@@ -1,0 +1,131 @@
+﻿@model SGCP_POO.Models.TarjetaConocimiento
+
+@{
+    ViewData["Title"] = "Área de Estudio";
+}
+
+<main class="container mt-4">
+    <h1 class="mb-4">Área de Estudio</h1>
+    <div class="d-flex gap-2 mb-3">
+        <a asp-controller="Estudiantes" asp-action="POO" class="btn btn-outline-primary">
+            Volver a POO
+        </a>
+        </div>
+    @if (ViewBag.Mensaje != null)
+
+    {
+        <div class="alert alert-success">@ViewBag.Mensaje</div>
+    }
+
+    @if (Model?.TarjetasRecursos != null && Model.TarjetasRecursos.Any())
+
+    {
+        <form asp-action="CrearTarjetaConocimiento" method="post">
+            <input type="hidden" name="idTarjeta" value="@Model.IdTarjeta" />
+
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <input type="text" name="nombreTarjeta" class="form-control w-50" value="@Model.NombreTarjeta" placeholder="Ingrese el nombre de la tarjeta" required />
+                    <small class="text-muted">
+                        Última vez usado: @Model.TarjetasRecursos.Max(tr => tr.FechaRegistro).ToShortDateString()
+                    </small>
+                </div>
+
+                <div class="card-body">
+                    <h6 class="mb-3">Recursos guardados</h6>
+
+                    @for (int i = 0; i < Model.TarjetasRecursos.Count; i++)
+                    {
+
+                        var tr = Model.TarjetasRecursos.ElementAt(i);
+
+                        var recurso = tr.Recurso;
+
+
+
+                        if (recurso != null)
+
+                        {
+                            <div class="border rounded p-3 mb-3 shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold text-primary">@recurso.Titulo</h6>
+                                    <small class="text-muted">@tr.FechaRegistro.ToShortDateString()</small>
+                                </div>
+
+                                <p><strong>Descripción:</strong> @recurso.Descripcion</p>
+                                <p><strong>Palabras clave:</strong> @recurso.PalabrasClave</p>
+                                <p><strong>Tema:</strong> @recurso.Tema</p>
+                                <p><strong>Formato:</strong> @recurso.Formato</p>
+
+                                @if (!string.IsNullOrEmpty(recurso.Enlace))
+
+                                {
+                                    <a href="@recurso.Enlace" target="_blank" class="btn btn-sm btn-outline-primary mb-2">Ver recurso</a>
+                                }
+
+                                else
+
+                                {
+                                    <span class="text-muted mb-2 d-block">Sin enlace disponible</span>
+                                }
+
+                                <div class="mb-2">
+                                    <label class="form-label">Retroalimentación</label>
+                                    <input type="text" name="retroalimentaciones" class="form-control" value="@tr.Retroalimentacion" />
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label d-block">Calificación</label>
+                                    <div class="star-rating">
+                                        @for (int estrella = 5; estrella >= 1; estrella--)
+
+                                        {
+                                            <!-- Cambié el name para que MVC mapee correctamente a List<int> calificaciones -->
+                                            <input type="radio" id="star-@i-@estrella" name="calificaciones[@i]" value="@estrella" @(tr.Calificacion == estrella ? "checked" : "") />
+                                            <label for="star-@i-@estrella" title="@estrella estrellas">&#9733;</label>
+                                        }
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="recursosIds" value="@recurso.IdRecurso" />
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Crear tarjeta de conocimiento</button>
+        </form>
+    }
+
+    else
+
+    {
+        <div class="alert alert-info mt-4">
+            No tienes recursos guardados aún.
+        </div>
+    }
+</main>
+
+<style>
+    .star-rating {
+        direction: rtl;
+        display: inline-block;
+    }
+
+        .star-rating input[type=radio] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 1.5rem;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+            .star-rating input[type=radio]:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: gold;
+            }
+</style>

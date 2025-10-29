@@ -29,7 +29,7 @@ namespace SGCP_POO.Controllers
                 await _context.SaveChangesAsync();
 
                 // Redirige a login u otra vista después de registrar
-                return RedirectToAction("Index", "Login"); // puedes cambiar esto
+                return RedirectToAction("Index", "Login"); 
             }
 
             return View(administrador);

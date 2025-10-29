@@ -12,10 +12,9 @@
 
 <div class="container mt-3">
 
-
     <div class="d-flex gap-2 mb-3">
         <a asp-controller="Estudiantes" asp-action="POO" class="btn btn-outline-primary">
-          Volver a POO
+            Volver a POO
         </a>
     </div>
 
@@ -62,7 +61,6 @@
             <span asp-validation-for="Tema" class="text-danger"></span>
         </div>
 
-
         <div class="mb-3">
             <label asp-for="Dificultad" class="form-label"></label>
             <select asp-for="Dificultad" class="form-select" required>
@@ -87,8 +85,6 @@
             </select>
             <span asp-validation-for="Formato" class="text-danger"></span>
         </div>
-
-
         <div class="mb-3">
             <label asp-for="Enlace" class="form-label"></label>
             <input asp-for="Enlace" type="url" class="form-control" placeholder="Enlace de consulta" required />
@@ -101,8 +97,4 @@
     <p class="text-muted text-center mt-3">Todos los campos son obligatorios para registrar el recurso.</p>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+

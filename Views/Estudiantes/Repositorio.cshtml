@@ -1,166 +1,223 @@
-﻿@{
+﻿@model Dictionary<string, List<SGCP_POO.Models.TarjetaConocimiento>>
+
+@{
     ViewData["Title"] = "Repositorio de Conocimiento";
 }
 
-<main class="container mt-4">
-    <h1 class="mb-4">Repositorio de Conocimiento</h1>
+<main class="container-fluid px-5 mt-4">
+    <h1 class="mb-4 text-center">Repositorio de Conocimiento</h1>
 
-    <p class="text-muted">
+    ```
+    <p class="text-muted text-center mb-5">
         Los recursos están organizados por <strong>tema</strong>.
-        Cada tarjeta de conocimiento puede contener varios recursos y opciones de retroalimentación.
+        Cada tarjeta de conocimiento puede contener varios recursos con su respectiva retroalimentación y calificación.
     </p>
 
-    <table class="table table-bordered text-center align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th colspan="3">Temas</th>
-            </tr>
-            <tr>
-                <th class="bg-primary text-white">Programación Orientada a Objetos</th>
-                <th class="bg-secondary text-white">Encapsulamiento</th>
-                <th class="bg-info text-white">Polimorfismo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <!-- Tema: Programación Orientada a Objetos -->
-                <td>
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            Tarjeta: Fundamentos de POO <br />
-                            <small class="text-muted">Última vez usado: 05/09/2025</small>
-                        </div>
-                        <div class="card-body">
-                            <h6>Recursos utilizados</h6>
+    <div class="d-flex gap-2 mb-3 justify-content-center">
+        <a asp-controller="Estudiantes" asp-action="POO" class="btn btn-outline-primary">
+            Volver a POO
+        </a>
+    </div>
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> POO en C#</p>
-                                <p><strong>Formato:</strong> Artículo</p>
-                                <a href="https://ejemplo.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle w-100">
+            <thead class="table-dark">
+                <tr>
+                    <th colspan="@Model.Count">Temas</th>
+                </tr>
+                <tr>
+                    @foreach (var tema in Model.Keys)
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> Patrones de diseño en POO</p>
-                                <p><strong>Formato:</strong> Libro digital</p>
-                                <a href="https://ejemplo4.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+                    {
+                        <th class="bg-primary text-white fs-5 px-4">@tema</th>
+                    }
+                </tr>
+            </thead>
 
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </div>
-                    </div>
-                </td>
+            <tbody>
+                <tr>
+                    @foreach (var tema in Model)
 
-                <!-- Tema: Encapsulamiento -->
-                <td>
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            Tarjeta: Encapsulamiento en Python <br />
-                            <small class="text-muted">Última vez usado: 07/09/2025</small>
-                        </div>
-                        <div class="card-body">
-                            <h6>Recursos utilizados</h6>
+                    {
+                        <td class="align-top px-4" style="min-width:400px; width:50%;">
+                            @foreach (var tarjeta in tema.Value)
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> Encapsulamiento en Python</p>
-                                <p><strong>Formato:</strong> Tutorial</p>
-                                <a href="https://ejemplo6.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+                            {
+                                <div class="card mb-5 shadow-sm" style="max-width: 800px; margin: 0 auto;">
+                                    <div class="card-header bg-light fs-6">
+                                        <strong>Tarjeta:</strong> @tarjeta.NombreTarjeta <br />
+                                        <small class="text-muted">
+                                            Creada: @tarjeta.FechaCreacion.ToString("dd/MM/yyyy")
+                                        </small>
+                                    </div>
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> Buenas prácticas en encapsulamiento</p>
-                                <p><strong>Formato:</strong> Artículo</p>
-                                <a href="https://ejemplo8.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+                                    <div class="card-body px-4 py-3">
+                                        <h6 class="fw-bold mb-3 text-primary">Recursos utilizados</h6>
 
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </div>
-                    </div>
-                </td>
+                                        @for (int i = 0; i < tarjeta.TarjetasRecursos.Count; i++)
 
-                <!-- Tema: Polimorfismo -->
-                <td>
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            Tarjeta: Polimorfismo en JavaScript <br />
-                            <small class="text-muted">Última vez usado: 07/09/2025</small>
-                        </div>
-                        <div class="card-body">
-                            <h6>Recursos utilizados</h6>
+                                        {
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> Polimorfismo en JS</p>
-                                <p><strong>Formato:</strong> Artículo</p>
-                                <a href="https://ejemplo7.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+                                            var tr = tarjeta.TarjetasRecursos.ElementAt(i);
 
-                            <div class="border rounded p-2 bg-light shadow-sm mb-3">
-                                <p><strong>Título:</strong> Ejemplos de polimorfismo en ES6</p>
-                                <p><strong>Formato:</strong> Video</p>
-                                <a href="https://ejemplo9.com" target="_blank">Ver recurso</a>
-                                <textarea class="form-control my-2" rows="2" placeholder="Retroalimentación..."></textarea>
-                                <select class="form-select mb-2">
-                                    <option value="">Calificar</option>
-                                    <option value="1">1 ⭐</option>
-                                    <option value="2">2 ⭐⭐</option>
-                                    <option value="3">3 ⭐⭐⭐</option>
-                                    <option value="4">4 ⭐⭐⭐⭐</option>
-                                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                                </select>
-                            </div>
+                                            var recurso = tr.Recurso;
 
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                                            <form asp-action="EditarRecurso" method="post"
+                                                  class="border rounded p-4 bg-light mb-4 text-start editarForm_@tarjeta.IdTarjeta"
+                                                  style="pointer-events:none; opacity:0.7; transition:0.3s;">
+                                                <input type="hidden" name="idTarjetaRecurso" value="@tr.IdTarjetaRecurso" />
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Título:</label>
+                                                    <input type="text" name="Recurso.Titulo" value="@recurso.Titulo" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Descripción:</label>
+                                                    <textarea name="Recurso.Descripcion" rows="3" class="form-control">@recurso.Descripcion</textarea>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Palabras clave:</label>
+                                                    <input type="text" name="Recurso.PalabrasClave" value="@recurso.PalabrasClave" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Tema:</label>
+                                                    <input type="text" name="Recurso.Tema" value="@recurso.Tema" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Dificultad:</label>
+                                                    <input type="text" name="Recurso.Dificultad" value="@recurso.Dificultad" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Formato:</label>
+                                                    <input type="text" name="Recurso.Formato" value="@recurso.Formato" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Enlace:</label><br />
+                                                    @if (!string.IsNullOrEmpty(recurso.Enlace))
+
+                                                    {
+                                                        <a href="@recurso.Enlace" target="_blank" class="btn btn-primary btn-sm">
+                                                            Ver recurso
+                                                        </a>
+                                                    }
+
+                                                    else
+
+                                                    {
+                                                        <span class="text-muted">No disponible</span>
+                                                    }
+                                                </div>
+
+                                                <p><strong>Última vez usado:</strong> @tr.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</p>
+
+                                                <hr />
+
+                                                <div class="mb-3">
+                                                    <label class="fw-bold">Retroalimentación:</label>
+                                                    <input type="text" name="Retroalimentacion" value="@tr.Retroalimentacion" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label class="form-label d-block fw-bold">Calificación</label>
+                                                    <div class="star-rating">
+                                                        @for (int estrella = 5; estrella >= 1; estrella--)
+
+                                                        {
+                                                            <input type="radio"
+                                                                   id="star-@i-@estrella-@tr.IdTarjetaRecurso"
+                                                                   name="Calificacion"
+                                                                   value="@estrella"
+                                                            @(tr.Calificacion == estrella ? "checked" : "") />
+                                                            <label for="star-@i-@estrella-@tr.IdTarjetaRecurso" title="@estrella estrellas">&#9733;</label>
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-success btn-sm px-4">
+                                                        Guardar cambios
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        }
+
+                                        <div class="d-flex justify-content-end mt-4">
+                                            <button class="btn btn-warning btn-sm me-3 px-3"
+                                                    onclick="habilitarEdicion(@tarjeta.IdTarjeta)">
+                                                Editar tarjeta
+                                            </button>
+
+                                            <form asp-action="EliminarTarjeta" method="post" class="d-inline">
+                                                <input type="hidden" name="idTarjeta" value="@tarjeta.IdTarjeta" />
+                                                <button type="submit" class="btn btn-danger btn-sm px-3"
+                                                        onclick="return confirm('¿Deseas eliminar esta tarjeta de conocimiento?')">
+                                                    Eliminar tarjeta
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    ```
+
 </main>
+
+@section Scripts {
+     <script>
+                           function habilitarEdicion(idTarjeta) {
+                               const forms = document.querySelectorAll('.editarForm_' + idTarjeta);
+                               forms.forEach(f => {
+                                   f.style.pointerEvents = 'auto';
+                                   f.style.opacity = '1';
+                               });
+                           }</script>
+
+    ```
+    <style>
+        /* Más espacio visual */
+        td {
+            padding: 2rem !important;
+            vertical-align: top;
+        }
+
+        .card {
+            border-radius: 1rem;
+        }
+
+        /* Calificación con estrellas */
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+        }
+
+            .star-rating input[type=radio] {
+                display: none;
+            }
+
+            .star-rating label {
+                font-size: 1.8rem;
+                color: #ccc;
+                cursor: pointer;
+            }
+
+                .star-rating input[type=radio]:checked ~ label,
+                .star-rating label:hover,
+                .star-rating label:hover ~ label {
+                    color: gold;
+                }
+    </style>
+```
+
+}

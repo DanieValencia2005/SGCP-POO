@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Personalización";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-3">Opciones de Personalización</h2>
+
+    <p>Desde aquí puedes cambiar el tema, tamaño de letra y posición del menú.</p>
+
+    <div class="card p-4 shadow">
+
+        <div class="mb-3">
+            <button id="toggleTheme" class="btn btn-outline-secondary btn-sm">
+                🌙 Tema Oscuro
+            </button>
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-semibold">Tamaño de letra:</label>
+            <select id="fontSizeSelect" class="form-select form-select-sm" style="width:160px;">
+                <option value="small">Pequeña</option>
+                <option value="medium" selected>Mediana</option>
+                <option value="large">Grande</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <button id="toggleMenuPosition" class="btn btn-outline-primary btn-sm">
+                Cambiar lado del menú
+            </button>
+        </div>
+
+    </div>
+</div>
+
+

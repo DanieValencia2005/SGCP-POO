@@ -1,3 +1,4 @@
+/* Variables base */
 :root {
     --background-body: #f8f9fa;
     --background-main: #ffffff;
@@ -8,7 +9,7 @@
     --link-hover-bg: #cfe2ff;
 }
 
-/* Definición para modo oscuro */
+/* Modo oscuro */
 body.dark-mode {
     --background-body: #121212;
     --background-main: #1e1e1e;
@@ -19,8 +20,7 @@ body.dark-mode {
     --link-hover-bg: #333;
 }
 
-
-/* Aplicar colores dinámicos desde las variables */
+/* Estilos generales */
 body {
     background-color: var(--background-body);
     color: var(--text-color);
@@ -30,7 +30,6 @@ body {
 
 html {
     font-size: 14px;
-    position: relative;
     min-height: 100%;
 }
 
@@ -40,7 +39,7 @@ html {
     }
 }
 
-/* Estilos de botones y enfoque accesible */
+/* Focos accesibles */
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -67,13 +66,27 @@ html {
             border-radius: 5px;
         }
 
-/* Contenido principal */
+    /* Sidebar colapsable */
+    .sidebar.collapsible {
+        display: none;
+    }
+
+    .sidebar.show-collapsible {
+        display: block;
+    }
+
+/* Menú a la derecha */
+body.menu-right #menuRow {
+    flex-direction: row-reverse;
+}
+
+/* Contenido */
 .main-content {
     background-color: var(--background-main);
     padding: 2rem;
 }
 
-/* Tarjetas informativas */
+/* Tarjetas */
 .info-card {
     background-color: var(--background-main);
     border-left: 5px solid var(--card-border-left);
@@ -83,11 +96,12 @@ html {
     margin-bottom: 2rem;
 }
 
-/* Encabezados y enlaces */
+/* Encabezados */
 h1, h2, h4, h5 {
     color: var(--link-color);
 }
 
+/* Enlaces */
 a, .nav-link {
     color: var(--link-color);
     text-decoration: none;
@@ -97,7 +111,7 @@ a, .nav-link {
         background-color: var(--link-hover-bg);
     }
 
-/* Tamaños de fuente dinámicos */
+/* Tamaños de fuente */
 body.font-small {
     font-size: 15px;
 }
@@ -109,26 +123,142 @@ body.font-medium {
 body.font-large {
     font-size: 35px;
 }
-/* Menú tipo colapsable (escondido por defecto) */
-.sidebar.collapsible {
-    display: none;
+
+/* Navbar modo oscuro */
+body.dark-mode .navbar {
+    background-color: var(--background-main) !important;
+    border-bottom: 1px solid #444;
 }
 
-.sidebar.show-collapsible {
-    display: block;
+    body.dark-mode .navbar .nav-link,
+    body.dark-mode .navbar .navbar-brand {
+        color: var(--text-color) !important;
+    }
+
+/* Cards modo oscuro */
+body.dark-mode .card,
+body.dark-mode .info-card {
+    background-color: var(--background-main) !important;
+    color: var(--text-color) !important;
+    border-color: #444 !important;
 }
 
-body.menu-right #menuRow {
-    flex-direction: row-reverse; /* Intercambia sidebar y contenido */
-}
-body.menu-right #menuRow {
-    flex-direction: row-reverse;
-}
-
-.sidebar.collapsible {
-    display: none;
+/* Contenido y footer oscuro */
+body.dark-mode .main-content,
+body.dark-mode .footer {
+    background-color: var(--background-main) !important;
+    color: var(--text-color) !important;
 }
 
-.sidebar.show-collapsible {
-    display: block;
+/* Inputs */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #2a2a2a;
+    color: var(--text-color);
+    border-color: #555;
+}
+
+    /* Placeholder oscuro */
+    body.dark-mode input::placeholder {
+        color: #aaa;
+    }
+
+/* List-group oscuro */
+body.dark-mode .list-group-item {
+    background-color: var(--background-main) !important;
+    color: var(--text-color) !important;
+    border-color: #444 !important;
+}
+
+/* Formularios dentro de cards */
+body.dark-mode .card .form-control,
+body.dark-mode .card textarea,
+body.dark-mode .card input,
+body.dark-mode .card select {
+    background-color: #111 !important;
+    border-color: #555 !important;
+    color: var(--text-color) !important;
+}
+
+    body.dark-mode .card input::placeholder,
+    body.dark-mode .card textarea::placeholder {
+        color: #aaa !important;
+    }
+
+/* Tablas */
+body.dark-mode table {
+    background-color: var(--background-main) !important;
+    color: var(--text-color) !important;
+    border-color: #444 !important;
+}
+
+body.dark-mode .table-bordered > :not(caption) > * {
+    border-color: #555 !important;
+}
+
+body.dark-mode thead.table-dark {
+    background-color: #111 !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-mode td {
+    background-color: var(--background-main) !important;
+    color: var(--text-color) !important;
+}
+
+/* Cards bootstrap */
+body.dark-mode .card-header {
+    background-color: #222 !important;
+    border-bottom-color: #444 !important;
+    color: var(--text-color) !important;
+}
+
+/* bg-light oscuro */
+body.dark-mode .bg-light {
+    background-color: #222 !important;
+    color: var(--text-color) !important;
+}
+
+/* Estrellas */
+body.dark-mode .star-rating label {
+    color: #777 !important;
+}
+
+    body.dark-mode .star-rating input[type=radio]:checked ~ label,
+    body.dark-mode .star-rating label:hover,
+    body.dark-mode .star-rating label:hover ~ label {
+        color: gold !important;
+    }
+
+/* Botones outline */
+body.dark-mode .btn-outline-primary,
+body.dark-mode .btn-outline-secondary,
+body.dark-mode .btn-outline-success {
+    color: var(--link-color) !important;
+    border-color: var(--link-color) !important;
+}
+
+    body.dark-mode .btn-outline-primary:hover,
+    body.dark-mode .btn-outline-secondary:hover,
+    body.dark-mode .btn-outline-success:hover {
+        background-color: var(--link-hover-bg) !important;
+        color: var(--text-color) !important;
+    }
+
+/* Colores fijos navbar */
+nav.navbar .nav-link.fixed-primary {
+    color: #0d6efd !important;
+}
+
+nav.navbar .nav-link.fixed-success {
+    color: #198754 !important;
+}
+
+body.dark-mode nav.navbar .nav-link.fixed-primary {
+    color: #0d6efd !important;
+}
+
+body.dark-mode nav.navbar .nav-link.fixed-success {
+    color: #198754 !important;
 }
