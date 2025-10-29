@@ -48,6 +48,10 @@ namespace SGCP_POO.Controllers
         {
             return View();
         }
+        public IActionResult Repositorio()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,12 +83,10 @@ namespace SGCP_POO.Controllers
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
             if (idEstudiante == null)
-            {
-                return RedirectToAction("Index", "Login"); // Si no hay sesión, redirige al login
-            }
+                return RedirectToAction("Index", "Login");
 
             var recursos = _context.Recursos
-                .Where(r => r.IdEstudiante == idEstudiante.Value) // ✅ Solo recursos del estudiante
+                .Where(r => r.IdEstudiante == idEstudiante.Value)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(tema))
@@ -102,56 +104,134 @@ namespace SGCP_POO.Controllers
 
             return View(await recursos.ToListAsync());
         }
+
+
         [HttpPost]
         public async Task<IActionResult> GuardarEnAreaEstudio(int id)
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
-
-            if (idEstudiante == null)
-                return RedirectToAction("Index", "Login");
+            if (idEstudiante == null) return RedirectToAction("Index", "Login");
 
             var recurso = await _context.Recursos
                 .FirstOrDefaultAsync(r => r.IdRecurso == id && r.IdEstudiante == idEstudiante.Value);
 
-            if (recurso == null)
-                return NotFound("Recurso no encontrado o no pertenece al estudiante");
-            var areaEstudio = new AreaEstudio
+            if (recurso == null) return NotFound("Recurso no encontrado o no pertenece al estudiante");
+
+            // Buscar tarjeta de conocimiento existente
+            var tarjeta = await _context.TarjetasConocimiento
+                .Include(t => t.TarjetasRecursos)
+                .FirstOrDefaultAsync(t => t.IdEstudiante == idEstudiante.Value && t.NombreTarjeta == "Mi tarjeta de estudio");
+
+            if (tarjeta == null)
             {
-                IdEstudiante = idEstudiante.Value,
-                IdRecurso = recurso.IdRecurso,
-                FechaUso = DateTime.Now,
-                NombreTarjeta = "Mi tarjeta de estudio"
-            };
+                tarjeta = new TarjetaConocimiento
+                {
+                    IdEstudiante = idEstudiante.Value,
+                    NombreTarjeta = "Mi tarjeta de estudio",
+                    FechaCreacion = DateTime.Now // ✅ Se asigna la fecha aquí
+                };
+                _context.TarjetasConocimiento.Add(tarjeta);
+                await _context.SaveChangesAsync();
+            }
 
-
-            _context.AreaEstudios.Add(areaEstudio);
-            await _context.SaveChangesAsync();
+            // Agregar recurso a la tarjeta si no existe
+            if (!tarjeta.TarjetasRecursos.Any(tr => tr.IdRecurso == recurso.IdRecurso))
+            {
+                var tarjetaRecurso = new TarjetaRecurso
+                {
+                    IdTarjeta = tarjeta.IdTarjeta,
+                    IdRecurso = recurso.IdRecurso,
+                    FechaRegistro = DateTime.Now // ✅ Se asigna fecha aquí
+                };
+                _context.TarjetasRecursos.Add(tarjetaRecurso);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction("BuscarRecursos");
         }
 
-
-
-        public async Task<IActionResult> AreadeEstudio()
+        // Ver Área de Estudio
+        public async Task<IActionResult> AreaEstudio()
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+            if (idEstudiante == null) return RedirectToAction("Index", "Login");
 
+            var tarjeta = await _context.TarjetasConocimiento
+                .Include(t => t.TarjetasRecursos)
+                    .ThenInclude(tr => tr.Recurso)
+                .FirstOrDefaultAsync(t => t.IdEstudiante == idEstudiante.Value && t.NombreTarjeta == "Mi tarjeta de estudio");
+
+            return View(tarjeta);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearTarjetaConocimiento(
+            string nombreTarjeta,
+            List<int> recursosIds,
+            List<string> retroalimentaciones,
+            List<int> calificaciones)
+        {
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
             if (idEstudiante == null)
                 return RedirectToAction("Index", "Login");
 
-            var area = await _context.AreaEstudios
-                .Include(a => a.Recurso)
-                .Where(a => a.IdEstudiante == idEstudiante.Value)
-                .ToListAsync();
+            if (string.IsNullOrEmpty(nombreTarjeta) || recursosIds == null || !recursosIds.Any())
+            {
+                TempData["Error"] = "Debe ingresar un nombre y seleccionar al menos un recurso.";
+                return RedirectToAction("AreaEstudio");
+            }
 
-            return View(area);
+            // Crear tarjeta
+            var tarjeta = new TarjetaConocimiento
+            {
+                IdEstudiante = idEstudiante.Value,
+                NombreTarjeta = nombreTarjeta,
+                FechaCreacion = DateTime.Now
+            };
+            _context.TarjetasConocimiento.Add(tarjeta);
+            await _context.SaveChangesAsync();
+
+            // Agregar recursos con retroalimentación y calificación
+            for (int i = 0; i < recursosIds.Count; i++)
+            {
+                var tarjetaRecurso = new TarjetaRecurso
+                {
+                    IdTarjeta = tarjeta.IdTarjeta,
+                    IdRecurso = recursosIds[i],
+                    Retroalimentacion = retroalimentaciones != null && retroalimentaciones.Count > i ? retroalimentaciones[i] : null,
+                    Calificacion = calificaciones != null && calificaciones.Count > i ? calificaciones[i] : (int?)null,
+                    FechaRegistro = DateTime.Now
+                };
+                _context.TarjetasRecursos.Add(tarjetaRecurso);
+            }
+
+            await _context.SaveChangesAsync();
+
+            // ELIMINAR los recursos de la "tarjeta temporal" del Área de Estudio
+            var areaEstudio = await _context.TarjetasConocimiento
+                .Include(t => t.TarjetasRecursos)
+                .FirstOrDefaultAsync(t => t.IdEstudiante == idEstudiante.Value && t.NombreTarjeta == "Mi tarjeta de estudio");
+
+            if (areaEstudio != null)
+            {
+                var recursosAEliminar = areaEstudio.TarjetasRecursos
+                    .Where(tr => recursosIds.Contains(tr.IdRecurso))
+                    .ToList();
+
+                if (recursosAEliminar.Any())
+                {
+                    _context.TarjetasRecursos.RemoveRange(recursosAEliminar);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            TempData["Mensaje"] = "✅ Tarjeta de conocimiento creada correctamente.";
+            return RedirectToAction("AreaEstudio");
         }
 
 
 
-        public IActionResult Repositorio()
-        {
-            return View();
-        }
+
+
     }
 }
