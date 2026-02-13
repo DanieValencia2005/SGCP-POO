@@ -21,7 +21,6 @@ public partial class Informacion
 
     public int? TiempoDedicacion { get; set; }
 
-    public string? ContraseñaNueva { get; set; }
 
     public virtual Estudiante? IdEstudianteNavigation { get; set; }
 }

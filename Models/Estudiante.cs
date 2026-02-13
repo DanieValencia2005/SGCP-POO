@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SGCP_POO.Models;
-
-public partial class Estudiante
+namespace SGCP_POO.Models
 {
-    public int IdEstudiante { get; set; }
+    public partial class Estudiante : Usuario
+    {
+        public int IdEstudiante { get; set; }
 
-    public string? Nombre { get; set; }
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        public override string Nombre { get; set; } = null!;
 
-    public string? CorreoInstitucional { get; set; }
+        [Required(ErrorMessage = "El correo institucional es obligatorio")]
+        [EmailAddress(ErrorMessage = "El correo no tiene un formato válido")]
+        public override string CorreoInstitucional { get; set; } = null!;
 
-    public string? Contraseña { get; set; }
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [DataType(DataType.Password)]
+        [StringLength(15, MinimumLength = 6,
+            ErrorMessage = "La contraseña debe tener al menos 6 caracteres y máximo 15")]
+        public override string Contraseña { get; set; } = null!;
 
-    public virtual ICollection<Informacion> Informacions { get; set; } = new List<Informacion>();
-
-    public virtual ICollection<Registro> Registros { get; set; } = new List<Registro>();
-
-    public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
-    public virtual ICollection<Recurso> Recursos { get; set; } = new List<Recurso>();
-    public virtual ICollection<TarjetaConocimiento> Tarjetas { get; set; } = new List<TarjetaConocimiento>();
-
+        public virtual ICollection<Informacion> Informacions { get; set; } = new List<Informacion>();
+        public virtual ICollection<Recurso> Recursos { get; set; } = new List<Recurso>();
+        public virtual ICollection<TarjetaConocimiento> Tarjetas { get; set; } = new List<TarjetaConocimiento>();
+    }
 }

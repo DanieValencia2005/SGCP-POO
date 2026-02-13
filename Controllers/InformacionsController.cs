@@ -4,6 +4,7 @@ using SGCP_POO.Models;
 
 namespace SGCP_POO.Controllers
 {
+    [RequireStudentSession]
     public class InformacionsController : Controller
     {
         private readonly SGCPContext _context;
@@ -37,7 +38,7 @@ namespace SGCP_POO.Controllers
         // POST: Informacions/Actualizar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Actualizar([Bind("IdInformacion,CorreoPersonal,Edad,Telefono,Habilidades,Deficiencias,TiempoDedicacion,ContraseñaNueva")] Informacion info)
+        public async Task<IActionResult> Actualizar([Bind("IdInformacion,CorreoPersonal,Edad,Telefono,Habilidades,Deficiencias,TiempoDedicacion")] Informacion info)
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
 
@@ -68,7 +69,6 @@ namespace SGCP_POO.Controllers
                 existente.Habilidades = info.Habilidades;
                 existente.Deficiencias = info.Deficiencias;
                 existente.TiempoDedicacion = info.TiempoDedicacion;
-                existente.ContraseñaNueva = info.ContraseñaNueva;
 
                 _context.Update(existente);
             }

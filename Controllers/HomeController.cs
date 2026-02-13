@@ -23,31 +23,6 @@ namespace SGCP_POO.Controllers
             return View();
         }
 
-        public IActionResult Actualizar()
-        {
-            return View();
-        }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        public IActionResult RegistroAdministrador()
-        {
-            return View();
-        }
-
-        public IActionResult RegistroEstudiante()
-        {
-            return View();
-        }
-
-        public IActionResult PortalEstudiante()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
