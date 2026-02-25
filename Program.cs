@@ -70,6 +70,10 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<SGCPContext>();
     db.Database.Migrate();
 }
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    hostingContext.HostingEnvironment.EnvironmentName = "Development";
+});
 
 // Configurar puerto para Render (o fallback 5000)
 var portEnv = Environment.GetEnvironmentVariable("PORT");

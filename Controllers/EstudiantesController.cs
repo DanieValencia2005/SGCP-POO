@@ -138,7 +138,7 @@ namespace SGCP_POO.Controllers
                 {
                     IdEstudiante = idEstudiante.Value,
                     NombreTarjeta = "Mi tarjeta de estudio",
-                    FechaCreacion = DateTime.Now
+                    FechaCreacion = DateTime.UtcNow
                 };
                 _context.TarjetasConocimiento.Add(tarjeta);
                 await _context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace SGCP_POO.Controllers
                 {
                     IdTarjeta = tarjeta.IdTarjeta,
                     IdRecurso = recurso.IdRecurso,
-                    FechaRegistro = DateTime.Now
+                    FechaRegistro = DateTime.UtcNow
                 };
                 _context.TarjetasRecursos.Add(tarjetaRecurso);
                 await _context.SaveChangesAsync();
@@ -178,10 +178,10 @@ namespace SGCP_POO.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearTarjetaConocimiento(
-            string nombreTarjeta,
-            List<int> recursosIds,
-            List<string> retroalimentaciones,
-            List<int> calificaciones)
+          string nombreTarjeta,
+          List<int> recursosIds,
+          List<string> retroalimentaciones,
+          List<int> calificaciones)
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
             if (idEstudiante == null) return RedirectToAction("Index", "Login");
@@ -196,7 +196,7 @@ namespace SGCP_POO.Controllers
             {
                 IdEstudiante = idEstudiante.Value,
                 NombreTarjeta = nombreTarjeta,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.TarjetasConocimiento.Add(tarjeta);
@@ -210,29 +210,12 @@ namespace SGCP_POO.Controllers
                     IdRecurso = recursosIds[i],
                     Retroalimentacion = retroalimentaciones != null && retroalimentaciones.Count > i ? retroalimentaciones[i] : null,
                     Calificacion = calificaciones != null && calificaciones.Count > i ? calificaciones[i] : (int?)null,
-                    FechaRegistro = DateTime.Now
+                    FechaRegistro = DateTime.UtcNow
                 };
                 _context.TarjetasRecursos.Add(tarjetaRecurso);
             }
 
             await _context.SaveChangesAsync();
-
-            var areaEstudio = await _context.TarjetasConocimiento
-                .Include(t => t.TarjetasRecursos)
-                .FirstOrDefaultAsync(t => t.IdEstudiante == idEstudiante.Value && t.NombreTarjeta == "Mi tarjeta de estudio");
-
-            if (areaEstudio != null)
-            {
-                var recursosAEliminar = areaEstudio.TarjetasRecursos
-                    .Where(tr => recursosIds.Contains(tr.IdRecurso))
-                    .ToList();
-
-                if (recursosAEliminar.Any())
-                {
-                    _context.TarjetasRecursos.RemoveRange(recursosAEliminar);
-                    await _context.SaveChangesAsync();
-                }
-            }
 
             TempData["Mensaje"] = "Tarjeta de conocimiento creada correctamente.";
             return RedirectToAction("AreaEstudio");
@@ -257,28 +240,34 @@ namespace SGCP_POO.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> EditarRecurso(int idTarjetaRecurso, Recurso Recurso, string Retroalimentacion, int? Calificacion)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarRecurso(int idTarjetaRecurso, Recurso recursoEditado, string retroalimentacion, int? calificacion)
         {
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+            if (idEstudiante == null) return RedirectToAction("Index", "Login");
+
             var tr = await _context.TarjetasRecursos
                 .Include(t => t.Recurso)
-                .FirstOrDefaultAsync(t => t.IdTarjetaRecurso == idTarjetaRecurso);
+                .FirstOrDefaultAsync(t => t.IdTarjetaRecurso == idTarjetaRecurso
+                                          && t.Recurso.IdEstudiante == idEstudiante.Value);
 
             if (tr == null)
-                return NotFound("No se encontró el recurso asociado a la tarjeta.");
+                return NotFound("No se encontró el recurso o no pertenece al estudiante.");
 
-            tr.Recurso.Titulo = Recurso.Titulo;
-            tr.Recurso.Descripcion = Recurso.Descripcion;
-            tr.Recurso.PalabrasClave = Recurso.PalabrasClave;
-            tr.Recurso.Tema = Recurso.Tema;
-            tr.Recurso.Dificultad = Recurso.Dificultad;
-            tr.Recurso.Formato = Recurso.Formato;
-            if (!string.IsNullOrEmpty(Recurso.Enlace))
-            {
-                tr.Recurso.Enlace = Recurso.Enlace;
-            }
-            tr.Retroalimentacion = Retroalimentacion;
-            tr.Calificacion = Calificacion;
-            tr.FechaRegistro = DateTime.Now;
+            // Actualizar campos del recurso
+            tr.Recurso.Titulo = recursoEditado.Titulo;
+            tr.Recurso.Descripcion = recursoEditado.Descripcion;
+            tr.Recurso.PalabrasClave = recursoEditado.PalabrasClave;
+            tr.Recurso.Tema = recursoEditado.Tema;
+            tr.Recurso.Dificultad = recursoEditado.Dificultad;
+            tr.Recurso.Formato = recursoEditado.Formato;
+            if (!string.IsNullOrEmpty(recursoEditado.Enlace))
+                tr.Recurso.Enlace = recursoEditado.Enlace;
+
+            // Actualizar retroalimentación y calificación de la tarjeta
+            tr.Retroalimentacion = retroalimentacion;
+            tr.Calificacion = calificacion;
+            tr.FechaRegistro = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
@@ -287,21 +276,27 @@ namespace SGCP_POO.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarTarjeta(int idTarjeta)
         {
+            int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
+            if (idEstudiante == null) return RedirectToAction("Index", "Login");
+
             var tarjeta = await _context.TarjetasConocimiento
                 .Include(t => t.TarjetasRecursos)
-                .FirstOrDefaultAsync(t => t.IdTarjeta == idTarjeta);
+                .FirstOrDefaultAsync(t => t.IdTarjeta == idTarjeta && t.IdEstudiante == idEstudiante.Value);
 
             if (tarjeta == null)
             {
-                TempData["Mensaje"] = "Tarjeta no encontrada.";
+                TempData["Error"] = "Tarjeta no encontrada o no pertenece al estudiante.";
                 return RedirectToAction("Repositorio");
             }
 
+            // Eliminar primero los recursos asociados
             _context.TarjetasRecursos.RemoveRange(tarjeta.TarjetasRecursos);
             await _context.SaveChangesAsync();
 
+            // Luego eliminar la tarjeta
             _context.TarjetasConocimiento.Remove(tarjeta);
             await _context.SaveChangesAsync();
 
