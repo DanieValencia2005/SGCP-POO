@@ -120,7 +120,7 @@ public partial class SGCPContext : DbContext
             entity.Property(e => e.NombreTarjeta).HasColumnName("nombre_tarjeta");
             entity.Property(e => e.FechaCreacion)
                   .HasColumnName("fecha_creacion")
-                  .HasDefaultValueSql("GETDATE()");
+                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.HasOne(e => e.Estudiante)
                   .WithMany(e => e.Tarjetas)
@@ -139,7 +139,7 @@ public partial class SGCPContext : DbContext
             entity.Property(e => e.Calificacion).HasColumnName("calificacion");
             entity.Property(e => e.FechaRegistro)
                   .HasColumnName("fecha_registro")
-                  .HasDefaultValueSql("GETDATE()");
+                  .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.HasOne(e => e.Tarjeta)
                   .WithMany(t => t.TarjetasRecursos)
