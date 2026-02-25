@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Dockerfile
+/SGCP_POO.csproj
+/.gitignore
+/.gitignore
