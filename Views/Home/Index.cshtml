@@ -23,17 +23,13 @@
                     <a class="nav-link" asp-controller="Estudiantes" asp-action="Informacion_Proyecto">Información del proyecto</a>
                 </li>
             }
-            else if (rol == "Administrador")
-            {
-                <li class="nav-item"><a class="nav-link" href="#">Gestión de contenidos</a></li>
-            }
         </ul>
     </div>
 
     <div id="mainContent" class="col-md-9 main-content">
         <div class="info-card">
             <h2>Bienvenido al Sistema de gestión del conocimiento</h2>
-            <p class="mt-3">Utiliza el menú lateral para navegar por las secciones disponibles.</p>
+            <p class="mt-3">Inicia sesión para ingrear al aplicativo en "Iniciar sesión" o crea una nueva cuenta si no tienes una en "Registrarse".</p>
 
             @if (rol == "Estudiante")
             {
@@ -44,13 +40,6 @@
                     <li><strong>Información del proyecto:</strong> consulta los objetivos.</li>
                 </ul>
             }
-            else if (rol == "Administrador")
-            {
-                <ul>
-                    <li><strong>Administración:</strong> gestiona contenidos y usuarios.</li>
-                </ul>
-            }
-
             <p class="mt-4 text-muted">Seleccione una opción para continuar.</p>
         </div>
     </div>

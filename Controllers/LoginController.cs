@@ -28,23 +28,21 @@ namespace SGCP_POO.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string Correo_institucional, string Contrasena)
         {
-            var usuario = await Usuario.Autenticar_Usuario(_context, Correo_institucional, Contrasena);
+            Usuario? usuario = await Usuario.Autenticar_Usuario(
+                _context,
+                Correo_institucional,
+                Contrasena
+            );
 
             if (usuario != null)
             {
-                // Guardar datos en sesión
                 HttpContext.Session.SetString("Nombre", usuario.Nombre);
-                HttpContext.Session.SetString("Correo", usuario.Correo_Institucional);
+                HttpContext.Session.SetString("Correo", usuario.CorreoInstitucional);
 
-                if (usuario.Estudiante != null)
+                if (usuario is Estudiante estudiante)
                 {
                     HttpContext.Session.SetString("Rol", "Estudiante");
-                    HttpContext.Session.SetInt32("IdEstudiante", usuario.Estudiante.IdEstudiante);
-                }
-                else if (usuario.Administrador != null)
-                {
-                    HttpContext.Session.SetString("Rol", "Administrador");
-                    HttpContext.Session.SetInt32("IdAdministrador", usuario.Administrador.IdAdministrador);
+                    HttpContext.Session.SetInt32("IdEstudiante", estudiante.IdEstudiante);
                 }
 
                 return RedirectToAction("Index", "Home");

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 using SGCP_POO.Models;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace SGCP_POO.Controllers
 {
+    [RequireStudentSession]
     public class EstudiantesController : Controller
     {
         private readonly SGCPContext _context;
@@ -15,29 +15,41 @@ namespace SGCP_POO.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
+
+        // POST
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateEstudiante([Bind("IdEstudiante,Nombre,CorreoInstitucional,Contraseña")] Estudiante estudiante)
+        public async Task<IActionResult> CreateEstudiante(
+            [Bind("IdEstudiante,Nombre,CorreoInstitucional,Contraseña")] Estudiante estudiante)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View("Create", estudiante);
+
+            bool correoExiste = await _context.Estudiantes
+                .AnyAsync(e => e.CorreoInstitucional == estudiante.CorreoInstitucional);
+
+            if (correoExiste)
             {
-                _context.Add(estudiante);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Login");
+                ModelState.AddModelError(
+                    nameof(estudiante.CorreoInstitucional),
+                    "El correo institucional ya está en uso"
+                );
+                return View("Create", estudiante);
             }
-            return View(estudiante);
+
+            _context.Add(estudiante);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Login");
         }
 
-        public IActionResult Actualizar()
-        {
-            return View();
-        }
 
         public IActionResult POO()
         {
@@ -132,7 +144,7 @@ namespace SGCP_POO.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // ✅ Evitar duplicar el recurso
+            // Evitar duplicar el recurso
             if (!tarjeta.TarjetasRecursos.Any(tr => tr.IdRecurso == recurso.IdRecurso))
             {
                 var tarjetaRecurso = new TarjetaRecurso
