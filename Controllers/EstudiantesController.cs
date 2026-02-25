@@ -138,15 +138,11 @@ namespace SGCP_POO.Controllers
                 {
                     IdEstudiante = idEstudiante.Value,
                     NombreTarjeta = "Mi tarjeta de estudio",
-                    FechaCreacion = DateTime.Now,
-                    TarjetasRecursos = new List<TarjetaRecurso>() // 🔹 inicializamos la colección
+                    FechaCreacion = DateTime.UtcNow
                 };
                 _context.TarjetasConocimiento.Add(tarjeta);
                 await _context.SaveChangesAsync();
             }
-
-            // 🔹 Recargar colección por si no estaba cargada
-            _context.Entry(tarjeta).Collection(t => t.TarjetasRecursos).Load();
 
             // Evitar duplicar el recurso
             if (!tarjeta.TarjetasRecursos.Any(tr => tr.IdRecurso == recurso.IdRecurso))
@@ -155,9 +151,9 @@ namespace SGCP_POO.Controllers
                 {
                     IdTarjeta = tarjeta.IdTarjeta,
                     IdRecurso = recurso.IdRecurso,
-                    FechaRegistro = DateTime.Now
+                    FechaRegistro = DateTime.UtcNow
                 };
-                tarjeta.TarjetasRecursos.Add(tarjetaRecurso); // 🔹 agregamos a la colección
+                _context.TarjetasRecursos.Add(tarjetaRecurso);
                 await _context.SaveChangesAsync();
             }
 
