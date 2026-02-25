@@ -144,7 +144,6 @@ namespace SGCP_POO.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Evitar duplicar el recurso
             if (!tarjeta.TarjetasRecursos.Any(tr => tr.IdRecurso == recurso.IdRecurso))
             {
                 var tarjetaRecurso = new TarjetaRecurso
@@ -178,10 +177,10 @@ namespace SGCP_POO.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearTarjetaConocimiento(
-          string nombreTarjeta,
-          List<int> recursosIds,
-          List<string> retroalimentaciones,
-          List<int> calificaciones)
+    string nombreTarjeta,
+    List<int> recursosIds,
+    List<string> retroalimentaciones,
+    List<int> calificaciones)
         {
             int? idEstudiante = HttpContext.Session.GetInt32("IdEstudiante");
             if (idEstudiante == null) return RedirectToAction("Index", "Login");
@@ -204,19 +203,24 @@ namespace SGCP_POO.Controllers
 
             for (int i = 0; i < recursosIds.Count; i++)
             {
-                var tarjetaRecurso = new TarjetaRecurso
+                var recurso = await _context.Recursos
+                    .FirstOrDefaultAsync(r => r.IdRecurso == recursosIds[i] && r.IdEstudiante == idEstudiante.Value);
+
+                if (recurso != null)
                 {
-                    IdTarjeta = tarjeta.IdTarjeta,
-                    IdRecurso = recursosIds[i],
-                    Retroalimentacion = retroalimentaciones != null && retroalimentaciones.Count > i ? retroalimentaciones[i] : null,
-                    Calificacion = calificaciones != null && calificaciones.Count > i ? calificaciones[i] : (int?)null,
-                    FechaRegistro = DateTime.UtcNow
-                };
-                _context.TarjetasRecursos.Add(tarjetaRecurso);
+                    var tarjetaRecurso = new TarjetaRecurso
+                    {
+                        IdTarjeta = tarjeta.IdTarjeta,
+                        IdRecurso = recurso.IdRecurso,
+                        Retroalimentacion = retroalimentaciones != null && retroalimentaciones.Count > i ? retroalimentaciones[i] : null,
+                        Calificacion = calificaciones != null && calificaciones.Count > i ? calificaciones[i] : (int?)null,
+                        FechaRegistro = DateTime.UtcNow
+                    };
+                    _context.TarjetasRecursos.Add(tarjetaRecurso);
+                }
             }
 
             await _context.SaveChangesAsync();
-
             TempData["Mensaje"] = "Tarjeta de conocimiento creada correctamente.";
             return RedirectToAction("AreaEstudio");
         }
@@ -252,9 +256,8 @@ namespace SGCP_POO.Controllers
                                           && t.Recurso.IdEstudiante == idEstudiante.Value);
 
             if (tr == null)
-                return NotFound("No se encontró el recurso o no pertenece al estudiante.");
+                return NotFound("No se encontró el recurso asociado a la tarjeta.");
 
-            // Actualizar campos del recurso
             tr.Recurso.Titulo = recursoEditado.Titulo;
             tr.Recurso.Descripcion = recursoEditado.Descripcion;
             tr.Recurso.PalabrasClave = recursoEditado.PalabrasClave;
@@ -264,13 +267,11 @@ namespace SGCP_POO.Controllers
             if (!string.IsNullOrEmpty(recursoEditado.Enlace))
                 tr.Recurso.Enlace = recursoEditado.Enlace;
 
-            // Actualizar retroalimentación y calificación de la tarjeta
             tr.Retroalimentacion = retroalimentacion;
             tr.Calificacion = calificacion;
             tr.FechaRegistro = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
-
             TempData["Mensaje"] = "Cambios guardados correctamente.";
             return RedirectToAction("Repositorio");
         }
@@ -292,14 +293,10 @@ namespace SGCP_POO.Controllers
                 return RedirectToAction("Repositorio");
             }
 
-            // Eliminar primero los recursos asociados
             _context.TarjetasRecursos.RemoveRange(tarjeta.TarjetasRecursos);
-            await _context.SaveChangesAsync();
-
-            // Luego eliminar la tarjeta
             _context.TarjetasConocimiento.Remove(tarjeta);
-            await _context.SaveChangesAsync();
 
+            await _context.SaveChangesAsync();
             TempData["Mensaje"] = "Tarjeta eliminada correctamente.";
             return RedirectToAction("Repositorio");
         }
