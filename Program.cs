@@ -60,5 +60,9 @@ app.MapControllerRoute(
 // Escuchar en el puerto de Render
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 app.Urls.Add($"http://0.0.0.0:{port}");
-
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<SGCPContext>();
+    db.Database.Migrate(); // Aplica todas las migraciones pendientes
+}
 app.Run();

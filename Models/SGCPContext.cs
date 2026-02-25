@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 namespace SGCP_POO.Models;
-
 public partial class SGCPContext : DbContext
 {
     public SGCPContext()
