@@ -25,7 +25,8 @@
 
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <input type="text" name="nombreTarjeta" class="form-control w-50" value="@Model.NombreTarjeta" placeholder="Ingrese el nombre de la tarjeta" required />
+                    <input type="text" name="nombreTarjeta" class="form-control w-50"
+                           placeholder="Ingrese el nombre de la tarjeta" required />
                     <small class="text-muted">
                         Última vez usado: @Model.TarjetasRecursos.Max(tr => tr.FechaRegistro).ToShortDateString()
                     </small>
