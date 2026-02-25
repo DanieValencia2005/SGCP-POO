@@ -10,13 +10,15 @@
   <ItemGroup>
     <!-- ASP.NET Core MVC -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
-    
+
     <!-- Entity Framework Core + PostgreSQL -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+  </ItemGroup>
 
-    <!-- Session -->
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="8.0.0" />
+  <ItemGroup>
+    <!-- ASP.NET Core Framework Reference: incluye Session, Identity, MVC, etc. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>
