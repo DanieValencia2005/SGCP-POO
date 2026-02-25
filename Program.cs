@@ -8,6 +8,7 @@ var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 // Convertirla a formato que Npgsql entiende
 string connectionString;
+
 if (!string.IsNullOrEmpty(databaseUrl))
 {
     var uri = new Uri(databaseUrl);
