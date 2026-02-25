@@ -10,7 +10,7 @@ RUN dotnet restore
 COPY . ./
 
 # Publicar la aplicación en modo Release
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish SGCP_POO.csproj -c Release -o /app/publish
 
 # Etapa 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
