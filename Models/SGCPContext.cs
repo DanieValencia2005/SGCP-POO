@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
-
 namespace SGCP_POO.Models;
 
 public partial class SGCPContext : DbContext
