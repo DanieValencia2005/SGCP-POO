@@ -13,9 +13,12 @@ if (!string.IsNullOrEmpty(databaseUrl))
 {
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
-    // Usar el puerto de la URL o 5432 por defecto
-    int dbPort = uri.Port != -1 ? uri.Port : 5432;
-    connectionString = $"Host={uri.Host};Port={dbPort};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};Pooling=true;Trust Server Certificate=true";
+    var host = uri.Host;
+    var dbName = uri.AbsolutePath.TrimStart('/');
+    var user = userInfo[0];
+    var password = userInfo[1];
+
+    connectionString = $"Host={host};Database={dbName};Username={user};Password={password};Pooling=true;SSL Mode=Require;Trust Server Certificate=true";
 }
 else
 {
