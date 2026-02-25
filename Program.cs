@@ -1,28 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using SGCP_POO.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar el contexto de base de datos
 builder.Services.AddDbContext<SGCPContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("7a"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Habilitar controladores y vistas
 builder.Services.AddControllersWithViews();
 
-// Agregar soporte para sesiones
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromHours(1); // Sesión de 1 hora
+    options.IdleTimeout = TimeSpan.FromHours(1);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
 
-// Configuración del pipeline de middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -34,7 +31,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession();         // Habilitar sesiones (muy importante)
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
