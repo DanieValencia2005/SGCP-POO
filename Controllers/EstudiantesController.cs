@@ -196,7 +196,7 @@ namespace SGCP_POO.Controllers
             {
                 IdEstudiante = idEstudiante.Value,
                 NombreTarjeta = nombreTarjeta,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
             _context.TarjetasConocimiento.Add(tarjeta);
             await _context.SaveChangesAsync();
@@ -215,7 +215,7 @@ namespace SGCP_POO.Controllers
                         IdRecurso = recurso.IdRecurso,
                         Retroalimentacion = retroalimentaciones != null && retroalimentaciones.Count > i ? retroalimentaciones[i] : null,
                         Calificacion = calificaciones != null && calificaciones.Count > i ? calificaciones[i] : (int?)null,
-                        FechaRegistro = DateTime.Now
+                        FechaRegistro = DateTime.UtcNow
                     };
                     _context.TarjetasRecursos.Add(tarjetaRecurso);
                 }
@@ -299,7 +299,7 @@ namespace SGCP_POO.Controllers
 
             tr.Retroalimentacion = retroalimentacion;
             tr.Calificacion = calificacion;
-            tr.FechaRegistro = DateTime.Now;
+            tr.FechaRegistro = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 

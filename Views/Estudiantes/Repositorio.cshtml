@@ -18,174 +18,170 @@
         </a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle w-100">
-            <thead class="table-dark">
-                <tr>
-                    <th colspan="@Model.Count">Temas</th>
-                </tr>
-                <tr>
-                    @foreach (var tema in Model.Keys)
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">No hay tarjetas en el repositorio aún.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle w-100">
+                <thead class="table-dark">
+                    <tr>
+                        <th colspan="@Model.Count">Temas</th>
+                    </tr>
+                    <tr>
+                        @foreach (var tema in Model.Keys)
+                        {
+                            <th class="bg-primary text-white fs-5 px-4">@tema</th>
+                        }
+                    </tr>
+                </thead>
 
-                    {
-                        <th class="bg-primary text-white fs-5 px-4">@tema</th>
-                    }
-                </tr>
-            </thead>
+                <tbody>
+                    <tr>
+                        @foreach (var tema in Model)
+                        {
+                            <td class="align-top px-4" style="min-width:400px; width:50%;">
+                                @foreach (var tarjeta in tema.Value)
+                                {
+                                    <div class="card mb-5 shadow-sm" style="max-width: 800px; margin: 0 auto;">
+                                        <div class="card-header bg-light fs-6">
+                                            <strong>Tarjeta:</strong> @tarjeta.NombreTarjeta <br />
+                                            <small class="text-muted">
+                                                Creada: @tarjeta.FechaCreacion.ToString("dd/MM/yyyy")
+                                            </small>
+                                        </div>
 
-            <tbody>
-                <tr>
-                    @foreach (var tema in Model)
+                                        <div class="card-body px-4 py-3">
+                                            <h6 class="fw-bold mb-3 text-primary">Recursos utilizados</h6>
 
-                    {
-                        <td class="align-top px-4" style="min-width:400px; width:50%;">
-                            @foreach (var tarjeta in tema.Value)
+                                            @for (int i = 0; i < tarjeta.TarjetasRecursos.Count; i++)
+                                            {
+                                                var tr = tarjeta.TarjetasRecursos.ElementAt(i);
+                                                var recurso = tr.Recurso;
 
-                            {
-                                <div class="card mb-5 shadow-sm" style="max-width: 800px; margin: 0 auto;">
-                                    <div class="card-header bg-light fs-6">
-                                        <strong>Tarjeta:</strong> @tarjeta.NombreTarjeta <br />
-                                        <small class="text-muted">
-                                            Creada: @tarjeta.FechaCreacion.ToString("dd/MM/yyyy")
-                                        </small>
-                                    </div>
+                                                <form asp-action="EditarRecurso" method="post"
+                                                      class="border rounded p-4 bg-light mb-4 text-start editarForm_@tarjeta.IdTarjeta"
+                                                      style="pointer-events:none; opacity:0.7; transition:0.3s;">
 
-                                    <div class="card-body px-4 py-3">
-                                        <h6 class="fw-bold mb-3 text-primary">Recursos utilizados</h6>
+                                                    <input type="hidden" name="idTarjetaRecurso" value="@tr.IdTarjetaRecurso" />
 
-                                        @for (int i = 0; i < tarjeta.TarjetasRecursos.Count; i++)
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Título:</label>
+                                                        <input type="text" name="recursoEditado.Titulo" value="@recurso.Titulo" class="form-control" />
+                                                    </div>
 
-                                        {
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Descripción:</label>
+                                                        <textarea name="recursoEditado.Descripcion" rows="3" class="form-control">@recurso.Descripcion</textarea>
+                                                    </div>
 
-                                            var tr = tarjeta.TarjetasRecursos.ElementAt(i);
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Palabras clave:</label>
+                                                        <input type="text" name="recursoEditado.PalabrasClave" value="@recurso.PalabrasClave" class="form-control" />
+                                                    </div>
 
-                                            var recurso = tr.Recurso;
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Tema:</label>
+                                                        <input type="text" name="recursoEditado.Tema" value="@recurso.Tema" class="form-control" />
+                                                    </div>
 
-                                            <form asp-action="EditarRecurso" method="post"
-                                                  class="border rounded p-4 bg-light mb-4 text-start editarForm_@tarjeta.IdTarjeta"
-                                                  style="pointer-events:none; opacity:0.7; transition:0.3s;">
-                                                <input type="hidden" name="idTarjetaRecurso" value="@tr.IdTarjetaRecurso" />
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Dificultad:</label>
+                                                        <input type="text" name="recursoEditado.Dificultad" value="@recurso.Dificultad" class="form-control" />
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Título:</label>
-                                                    <input type="text" name="Recurso.Titulo" value="@recurso.Titulo" class="form-control" />
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Formato:</label>
+                                                        <input type="text" name="recursoEditado.Formato" value="@recurso.Formato" class="form-control" />
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Descripción:</label>
-                                                    <textarea name="Recurso.Descripcion" rows="3" class="form-control">@recurso.Descripcion</textarea>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Palabras clave:</label>
-                                                    <input type="text" name="Recurso.PalabrasClave" value="@recurso.PalabrasClave" class="form-control" />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Tema:</label>
-                                                    <input type="text" name="Recurso.Tema" value="@recurso.Tema" class="form-control" />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Dificultad:</label>
-                                                    <input type="text" name="Recurso.Dificultad" value="@recurso.Dificultad" class="form-control" />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Formato:</label>
-                                                    <input type="text" name="Recurso.Formato" value="@recurso.Formato" class="form-control" />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Enlace:</label><br />
-                                                    @if (!string.IsNullOrEmpty(recurso.Enlace))
-
-                                                    {
-                                                        <a href="@recurso.Enlace" target="_blank" class="btn btn-primary btn-sm">
-                                                            Ver recurso
-                                                        </a>
-                                                    }
-
-                                                    else
-
-                                                    {
-                                                        <span class="text-muted">No disponible</span>
-                                                    }
-                                                </div>
-
-                                                <p><strong>Última vez usado:</strong> @tr.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</p>
-
-                                                <hr />
-
-                                                <div class="mb-3">
-                                                    <label class="fw-bold">Retroalimentación:</label>
-                                                    <input type="text" name="Retroalimentacion" value="@tr.Retroalimentacion" class="form-control" />
-                                                </div>
-
-                                                <div class="mb-4">
-                                                    <label class="form-label d-block fw-bold">Calificación</label>
-                                                    <div class="star-rating">
-                                                        @for (int estrella = 5; estrella >= 1; estrella--)
-
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Enlace:</label><br />
+                                                        @if (!string.IsNullOrEmpty(recurso.Enlace))
                                                         {
-                                                            <input type="radio"
-                                                                   id="star-@i-@estrella-@tr.IdTarjetaRecurso"
-                                                                   name="Calificacion"
-                                                                   value="@estrella"
-                                                            @(tr.Calificacion == estrella ? "checked" : "") />
-                                                            <label for="star-@i-@estrella-@tr.IdTarjetaRecurso" title="@estrella estrellas">&#9733;</label>
+                                                            <a href="@recurso.Enlace" target="_blank" class="btn btn-primary btn-sm">
+                                                                Ver recurso
+                                                            </a>
+                                                            <input type="text" name="recursoEditado.Enlace" value="@recurso.Enlace" class="form-control mt-2" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="text" name="recursoEditado.Enlace" placeholder="Agregar enlace" class="form-control" />
                                                         }
                                                     </div>
-                                                </div>
 
-                                                <div class="d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-success btn-sm px-4">
-                                                        Guardar cambios
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        }
+                                                    <p><strong>Última vez usado:</strong> @tr.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</p>
 
-                                        <div class="d-flex justify-content-end mt-4">
-                                            <button class="btn btn-warning btn-sm me-3 px-3"
-                                                    onclick="habilitarEdicion(@tarjeta.IdTarjeta)">
-                                                Editar tarjeta
-                                            </button>
+                                                    <hr />
 
-                                            <form asp-action="EliminarTarjeta" method="post" class="d-inline">
-                                                <input type="hidden" name="idTarjeta" value="@tarjeta.IdTarjeta" />
-                                                <button type="submit" class="btn btn-danger btn-sm px-3"
-                                                        onclick="return confirm('¿Deseas eliminar esta tarjeta de conocimiento?')">
-                                                    Eliminar tarjeta
+                                                    <div class="mb-3">
+                                                        <label class="fw-bold">Retroalimentación:</label>
+                                                        <input type="text" name="retroalimentacion" value="@tr.Retroalimentacion" class="form-control" />
+                                                    </div>
+
+                                                    <div class="mb-4">
+                                                        <label class="form-label d-block fw-bold">Calificación</label>
+                                                        <div class="star-rating">
+                                                            @for (int estrella = 5; estrella >= 1; estrella--)
+                                                            {
+                                                                <input type="radio"
+                                                                       id="star-@i-@estrella-@tr.IdTarjetaRecurso"
+                                                                       name="calificacion"
+                                                                       value="@estrella"
+                                                                       @(tr.Calificacion == estrella ? "checked" : "") />
+                                                                <label for="star-@i-@estrella-@tr.IdTarjetaRecurso" title="@estrella estrellas">&#9733;</label>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end">
+                                                        <button type="submit" class="btn btn-success btn-sm px-4">
+                                                            Guardar cambios
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            }
+
+                                            <div class="d-flex justify-content-end mt-4">
+                                                <button class="btn btn-warning btn-sm me-3 px-3"
+                                                        onclick="habilitarEdicion(@tarjeta.IdTarjeta)">
+                                                    Editar tarjeta
                                                 </button>
-                                            </form>
+
+                                                <form asp-action="EliminarTarjeta" method="post" class="d-inline">
+                                                    <input type="hidden" name="idTarjeta" value="@tarjeta.IdTarjeta" />
+                                                    <button type="submit" class="btn btn-danger btn-sm px-3"
+                                                            onclick="return confirm('¿Deseas eliminar esta tarjeta de conocimiento?')">
+                                                        Eliminar tarjeta
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        </td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
+                                }
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
 </main>
 
 @section Scripts {
-     <script>
-                           function habilitarEdicion(idTarjeta) {
-                               const forms = document.querySelectorAll('.editarForm_' + idTarjeta);
-                               forms.forEach(f => {
-                                   f.style.pointerEvents = 'auto';
-                                   f.style.opacity = '1';
-                               });
-                           }</script>
+    <script>
+        function habilitarEdicion(idTarjeta) {
+            const forms = document.querySelectorAll('.editarForm_' + idTarjeta);
+            forms.forEach(f => {
+                f.style.pointerEvents = 'auto';
+                f.style.opacity = '1';
+            });
+        }
+    </script>
 
-    ```
     <style>
-        /* Más espacio visual */
         td {
             padding: 2rem !important;
             vertical-align: top;
@@ -195,7 +191,6 @@
             border-radius: 1rem;
         }
 
-        /* Calificación con estrellas */
         .star-rating {
             direction: rtl;
             display: inline-block;
@@ -217,5 +212,4 @@
                     color: gold;
                 }
     </style>
-
 }
